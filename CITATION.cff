@@ -1,0 +1,61 @@
+cff-version: 1.2.0
+title: "Structural Idealism Research Programme"
+message: "If you use this work, please cite the relevant paper(s)."
+type: dataset
+authors:
+  - family-names: Austermann
+    given-names: Sloan
+date-released: 2026-03-05
+repository-code: "https://github.com/slaustermann/omniscience-research"
+license:
+  - MIT
+  - CC-BY-4.0
+references:
+  - type: article
+    title: "Structural Idealism and the Formal Foundations of Mind"
+    authors:
+      - family-names: Austermann
+        given-names: Sloan
+    doi: "10.5281/zenodo.18521824"
+    year: 2026
+  - type: article
+    title: "Gauge Structure from the Metric Bundle"
+    authors:
+      - family-names: Austermann
+        given-names: Sloan
+    doi: "10.5281/zenodo.18860687"
+    year: 2026
+  - type: article
+    title: "Torsion, Free Energy, and the Conscious Observer"
+    authors:
+      - family-names: Austermann
+        given-names: Sloan
+    doi: "10.5281/zenodo.18860689"
+    year: 2026
+  - type: article
+    title: "Gauge Dynamics from the Gauss Equation"
+    authors:
+      - family-names: Austermann
+        given-names: Sloan
+    doi: "10.5281/zenodo.18860691"
+    year: 2026
+  - type: article
+    title: "Anomaly Cancellation in the Metric Bundle"
+    authors:
+      - family-names: Austermann
+        given-names: Sloan
+    doi: "10.5281/zenodo.18860693"
+    year: 2026
+  - type: article
+    title: "Three Generations from Quaternionic Structure"
+    authors:
+      - family-names: Austermann
+        given-names: Sloan
+    doi: "10.5281/zenodo.18860697"
+    year: 2026
+  - type: article
+    title: "Quantum Mechanics from Finite Observation"
+    authors:
+      - family-names: Austermann
+        given-names: Sloan
+    year: 2026

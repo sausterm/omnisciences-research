@@ -1,0 +1,60 @@
+\begin{thebibliography}{10}
+
+\bibitem{Paper1}
+Sloan Austermann.
+\newblock The {L}orentzian {D}e{W}itt metric and the {P}ati-{S}alam gauge
+  group.
+\newblock {\em Zenodo preprint}, 2026.
+\newblock Companion paper.
+
+\bibitem{Paper2}
+Sloan Austermann.
+\newblock Fermion representations from the metric bundle: {C}lifford algebras
+  and the {P}ati-{S}alam spinor.
+\newblock {\em Zenodo preprint}, 2026.
+\newblock Companion paper.
+
+\bibitem{DeWitt1967}
+Bryce~S. DeWitt.
+\newblock Quantum theory of gravity. {I}. {T}he canonical theory.
+\newblock {\em Physical Review}, 160:1113--1148, 1967.
+
+\bibitem{KaluzaKlein}
+Theodor Kaluza.
+\newblock {Zum Unit\"atsproblem der Physik}.
+\newblock {\em Sitzungsberichte der K\"oniglich Preu{\ss}ischen Akademie der
+  Wissenschaften}, pages 966--972, 1921.
+
+\bibitem{Bailin1987}
+David Bailin and Alexander Love.
+\newblock {\em Kaluza-Klein Theories}.
+\newblock Institute of Physics Publishing, 1987.
+
+\bibitem{KobayashiNomizu}
+Shoshichi Kobayashi and Katsumi Nomizu.
+\newblock {\em Foundations of Differential Geometry}, volume~II.
+\newblock Wiley-Interscience, 1969.
+
+\bibitem{Helgason1978}
+Sigurdur Helgason.
+\newblock {\em Differential Geometry, Lie Groups, and Symmetric Spaces}.
+\newblock Academic Press, 1978.
+
+\bibitem{Giulini2009}
+Domenico Giulini.
+\newblock The superspace of geometrodynamics.
+\newblock {\em General Relativity and Gravitation}, 41:785--815, 2009.
+
+\bibitem{Paper6}
+Sloan Austermann.
+\newblock Quantum mechanics from finite observation: {B}orn rule, interference,
+  and uncertainty as consequences of {M}arkov blanket geometry.
+\newblock {\em Zenodo preprint}, 2026.
+\newblock Companion paper.
+
+\bibitem{numpy}
+Charles~R. Harris et~al.
+\newblock Array programming with {NumPy}.
+\newblock {\em Nature}, 585:357--362, 2020.
+
+\end{thebibliography}

@@ -1,0 +1,581 @@
+\documentclass[11pt,a4paper]{article}
+
+% ============================================
+% PACKAGES
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage[authoryear,round]{natbib}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{abstract}
+
+% ============================================
+% THEOREM ENVIRONMENTS
+% ============================================
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+
+% ============================================
+% CUSTOM COMMANDS
+% ============================================
+\newcommand{\Con}{\mathbf{Con}}
+\newcommand{\MB}{\mathbf{MB}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Real}{\mathbb{R}}
+\DeclareMathOperator{\DKL}{D_{KL}}
+
+% ============================================
+% HYPERREF SETUP
+% ============================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    citecolor=blue!60!black,
+    urlcolor=blue!60!black
+}
+
+% ============================================
+% DOCUMENT
+% ============================================
+\begin{document}
+
+% ============================================
+% TITLE PAGE
+% ============================================
+\title{\textbf{Formal Correspondences in Consciousness Science:\\From $\Theta$ Mapping to $\Phi$-Assembly}}
+
+\author{[Anonymized for review]}
+
+\date{February 2026\\[1em]
+\small Submitted to: Journal of Consciousness Studies}
+
+\maketitle
+
+\begin{abstract}
+If consciousness is fundamental, independently developed formalisms of conscious dynamics should exhibit structural convergence. This paper tests that prediction by developing the formal and empirical tools of Structural Idealism. We construct a mapping $\Theta: \Con \to \MB$ from Hoffman's Conscious Agent framework to Friston's Markov Blanket formalism and show that the perception-decision-action kernel factorization implies conditional independence---a derived result, not a design choice. The Blanket-Mediated Interaction Condition (BMIC) is shown to be necessary and sufficient for compositional correspondence, providing a precise criterion for when interacting systems remain dissociated versus fuse. We demonstrate that this correspondence is non-generic: conscious agent structure occupies a measure-zero submanifold of the space of all dynamical systems on the same state space, with codimension 46 even in the minimal binary case. We develop a connection to Tononi's Integrated Information Theory through a $\Phi$-dissociability theorem and propose the $\Phi$-Assembly framework for organizing empirical predictions about conscious systems. Concrete falsification criteria---formal, empirical, and theoretical---are specified. The philosophical foundations motivating this program are developed in a companion paper; full measure-theoretic proofs are available as supplementary material [anonymized for review].
+\end{abstract}
+
+\noindent\textbf{Keywords:} formal correspondence, Markov blankets, conscious agents, $\Theta$ mapping, integrated information, $\Phi$-Assembly, BMIC, falsifiability, consciousness science
+
+\vspace{1em}
+\noindent\textbf{Companion papers:}\\
+\textit{Philosophical foundations:} [Anonymized for review].\\
+\textit{Technical proofs:} A companion technical paper with full measure-theoretic proofs is available as supplementary material [anonymized for review].
+
+\newpage
+\tableofcontents
+\newpage
+
+% ============================================
+% SECTION 1: INTRODUCTION
+% ============================================
+\section{Introduction}\label{sec:intro}
+
+The study of consciousness increasingly involves formal mathematical frameworks. Friston's Free Energy Principle describes how systems maintain their organization through Markov blankets---statistical boundaries that screen internal from external dynamics \citep{Friston2010,Friston2019}. Hoffman's Conscious Realism models observers as conscious agents with perception-decision-action cycles \citep{Hoffman2014,Hoffman2019}. Tononi's Integrated Information Theory quantifies consciousness through integration measures \citep{Tononi2015}. These frameworks were developed independently, motivated by different concerns: statistical physics, perception theory, and phenomenology respectively.
+
+A companion paper develops the philosophical case for Structural Idealism---the view that consciousness is the intrinsic nature of physical structure [companion paper]. If this view is correct, it generates a prediction: independently developed mathematical frameworks capturing genuine aspects of conscious dynamics should converge on structurally analogous formalizations. Mathematics, on this view, is how consciousness articulates its own organization; independent investigations of the same underlying reality should discover compatible structures.
+
+This paper tests that prediction by developing the formal and empirical apparatus of the research program. We make three contributions:
+
+\begin{enumerate}
+    \item \textbf{The $\Theta$ mapping} (Section~\ref{sec:theta}): We construct a formal mapping from Hoffman's Conscious Agents to Friston's Markov Blanket systems, proving that the perception-decision-action kernel factorization implies conditional independence. We show this correspondence is compositional under the Blanket-Mediated Interaction Condition (BMIC) and demonstrate its non-genericity.
+
+    \item \textbf{Integration and dissociability} (Section~\ref{sec:iit}): We connect the $\Theta$ framework to Tononi's Integrated Information Theory, defining a $\Phi$-like integration measure for conscious agents and proving a dissociability correspondence.
+
+    \item \textbf{The $\Phi$-Assembly framework} (Section~\ref{sec:phi}): We propose a two-dimensional space for characterizing modes of conscious organization and derive specific, falsifiable predictions about biological and artificial systems.
+\end{enumerate}
+
+\subsection{The Convergence Prediction}\label{sec:convergence}
+
+The convergence prediction is not that all consciousness frameworks are equivalent---they are not. Rather, the prediction is that frameworks capturing genuine dynamics of bounded conscious perspectives should share \textit{specific} structural features: conditional independence at boundaries, compositional behavior under interaction, and integration measures that track phenomenal unity. These are not generic properties. As we demonstrate below, they hold for a measure-zero subset of possible dynamical systems.
+
+The prediction is falsifiable: if the structural parallels between independently developed frameworks turn out to be superficial---if conditional independence is trivially implied by any agent-environment decomposition, or if compositional correspondence holds generically---then the convergence prediction fails, and the idealist motivation is undercut. Conversely, if independently developed frameworks continue to exhibit specific structural parallels as they are developed in greater mathematical detail, the convergence evidence strengthens. The prediction is progressive in the Lakatosian sense: it guides further research and generates new empirical content.
+
+\subsection{Relation to the Companion Paper}\label{sec:relation}
+
+The philosophical foundations for Structural Idealism---the intrinsic nature argument, the thesis of mathematics as conscious self-articulation, and the bidirectional dynamics of association and dissociation---are developed in the companion paper [companion paper]. The present paper is self-contained for readers primarily interested in the formal and empirical program. Where philosophical interpretation is needed, we provide brief summaries and refer readers to the companion paper for full arguments.
+
+The key philosophical commitments assumed here are:
+\begin{itemize}
+    \item Consciousness is the intrinsic nature of physical structure (not emergent from it).
+    \item Mathematical structure is the self-articulation of conscious organization.
+    \item Bounded perspectives arise through \textit{dissociation} (formation of statistical boundaries) and combine through \textit{association} (dissolution of such boundaries).
+    \item These dynamics should be capturable in formal frameworks, and independent formalizations should converge.
+\end{itemize}
+
+% ============================================
+% SECTION 2: THE THETA MAPPING
+% ============================================
+\section{The $\Theta$ Mapping: $\Con \to \MB$}\label{sec:theta}
+
+\subsection{Hoffman's Conscious Agents}\label{sec:hoffman}
+
+Hoffman's Conscious Realism begins from the thesis that consciousness is fundamental and that the objects of everyday experience are not mind-independent entities but rather the interface through which conscious agents interact \citep{Hoffman2014,Hoffman2019}. The mathematical core of this program is the \textit{conscious agent}: a formal model of a perceiving, deciding, acting subject.
+
+\begin{definition}[Conscious Agent]
+A \emph{conscious agent} is a tuple $\alpha = (X, G, W, P, D, A)$ where:
+\begin{itemize}
+    \item $X$ is the \emph{experience space} (internal states),
+    \item $G$ is the \emph{action space} (behavioral outputs),
+    \item $W$ is the \emph{world space} (external environment),
+    \item $P: W \times X \to \Delta(X)$ is the \emph{perception kernel} (how the world and current experience determine next experience),
+    \item $D: X \to \Delta(G)$ is the \emph{decision kernel} (how experience determines action),
+    \item $A: G \times W \to \Delta(W)$ is the \emph{action kernel} (how action and world determine next world state).
+\end{itemize}
+The dynamics form a cycle $W \to X \to G \to W$ with combined kernel:
+$$K_\alpha[(x, g, w) \to (x', g', w')] = P[w, x, x'] \cdot D[x', g'] \cdot A[g', w, w']$$
+\end{definition}
+
+Several features of this definition deserve emphasis. First, the three kernels encode a specific \textit{causal ordering}: perception precedes decision, which precedes action. This is not a generic dynamical system; it is a system with the architecture of an agent that perceives, deliberates, and acts. The ordering is essential: the agent's next experience is determined by the current world state and its current experience (via $P$); its next action is determined by its next experience (via $D$); and the world's next state is determined by the agent's action and the current world state (via $A$). This creates a directed cycle $W \xrightarrow{P} X \xrightarrow{D} G \xrightarrow{A} W$ that repeats at each time step.
+
+Second, agents compose: two agents $\alpha$ and $\beta$ can form a composite agent $\alpha \otimes \beta$ with product state spaces $X_\alpha \times X_\beta$, $G_\alpha \times G_\beta$, $W_\alpha \times W_\beta$ and product kernels $P_\alpha \otimes P_\beta$, $D_\alpha \otimes D_\beta$, $A_\alpha \otimes A_\beta$. This composition captures the idea that two non-interacting agents are jointly a larger agent whose experience, decisions, and actions factor independently. With appropriate morphisms (structure-preserving maps between agents), the collection of all conscious agents forms a symmetric monoidal category $\Con$ (see companion technical paper, Proposition~2.9). The category-theoretic formulation is not merely a notational convenience; it ensures that composition is associative, that a ``do-nothing'' unit agent exists, and that the algebraic structure is coherent.
+
+Third, the perception kernel $P$ is especially important for what follows. It maps the current world state $w$ and internal state $x$ to a distribution over next internal states $x'$. This captures the intuition that what an agent experiences next depends both on what is happening in the world and on the agent's current experiential state---attention, expectation, and prior experience all modulate perception. A naive perceiver might be modeled with $P: W \to \Delta(X)$ (perception depends only on the world), but Hoffman's richer formulation allows the agent's current state to shape what it perceives---a feature with clear phenomenological motivation and, as we show, important formal consequences.
+
+\subsection{Friston's Markov Blankets}\label{sec:friston}
+
+Friston's Free Energy Principle provides a complementary formal framework, grounded not in perception theory but in statistical physics \citep{Friston2010,Friston2019}. The central concept is the \textit{Markov blanket}: a statistical boundary that separates a system's internal states from its external environment.
+
+\begin{definition}[Markov Blanket System]
+A \emph{Markov blanket system} is $M = (\Omega, \mu, s, a, \eta, K)$ where $\Omega = S_\mu \times S_s \times S_a \times S_\eta$ is partitioned into internal states $\mu$, sensory states $s$, active states $a$, and external states $\eta$. The blanket $B = (s, a)$ satisfies:
+$$P(\mu' \mid \mu, B, \eta) = P(\mu' \mid \mu, B)$$
+The next internal state is conditionally independent of external states given the current internal state and blanket.
+\end{definition}
+
+The Markov blanket property captures the idea that internal and external states interact only through the blanket. All information that external states carry about future internal states is mediated by sensory and active states. The blanket \textit{screens off} the interior from the exterior.
+
+On the Free Energy Principle, self-organizing systems that persist over time---from cells to organisms to social groups---do so by maintaining Markov blankets \citep{Parr2022}. The blanket defines the system's boundary: what is ``inside'' and what is ``outside.'' Systems minimize variational free energy, which is equivalent to maximizing the evidence for an internal model of the external world.
+
+The Markov blanket concept is powerful because of its generality. Any system that can be statistically distinguished from its environment---any system with a well-defined boundary---has a Markov blanket. But the Markov blanket property is not trivially satisfied: it requires a specific statistical structure (conditional independence) that constrains the possible dynamics. Not every partition of a dynamical system's state space yields a Markov blanket; the partition must align with the system's causal structure in a specific way.
+
+Markov blankets can nest hierarchically. A cell has a Markov blanket (cell membrane); an organ composed of cells has a higher-level blanket; an organism composed of organs has a still-higher-level blanket. Each level of nesting represents a new scale of self-organization. This hierarchical structure is central to the Free Energy Principle's account of biological complexity: the major transitions in evolution correspond to the emergence of new levels of Markov blanket organization.
+
+\subsection{The Mapping}\label{sec:mapping}
+
+We now construct a mapping that transforms any conscious agent into a Markov blanket system.
+
+\begin{definition}[Sensory Equivalence]
+For agent $\alpha$ and internal state $x \in X$, world states $w_1, w_2 \in W$ are \emph{sensorily equivalent given $x$}, written $w_1 \sim_x w_2$, if they produce identical perception distributions:
+$$P[(w_1, x), \cdot] = P[(w_2, x), \cdot] \quad \text{as measures on } X$$
+The \emph{sensory state function} $\sigma: W \times X \to S$ maps $(w, x)$ to its equivalence class.
+\end{definition}
+
+Two world states are sensorily equivalent when the agent cannot distinguish them experientially. The sensory state $\sigma(w, x)$ captures everything the agent can perceive about $w$ given its current experience $x$. This is the agent's ``sensory window'' onto the world.
+
+\begin{definition}[The $\Theta$ Mapping]\label{def:theta}
+Given conscious agent $\alpha = (X, G, W, P, D, A)$, define $\Theta(\alpha) = (\Omega, \mu, s, a, \eta, K)$ where:
+\begin{itemize}
+    \item State space $\Omega = X \times G \times W$
+    \item Internal states $\mu = X$ (experience)
+    \item Active states $a = G$ (action)
+    \item External states $\eta = W$ (world)
+    \item Sensory states $s = \sigma(w, x)$ (perceptual equivalence classes)
+    \item Blanket $B = (s, a)$
+    \item Dynamics kernel $K = P \cdot D \cdot A$
+\end{itemize}
+\end{definition}
+
+\begin{remark}[Sensory State Dependence on Internal State]
+The sensory state $s = \sigma(w, x)$ depends on the internal state $x$, unlike the standard Friston formulation where sensory states depend only on external and blanket states. This departure is philosophically motivated: an agent's perceptual capacities may depend on its current experiential state (attention modulates perception, expectations shape what we notice, prior experience determines discriminative capacity). The Markov blanket property holds regardless, with $\sigma$ functioning as a sufficient statistic.
+\end{remark}
+
+The mapping $\Theta$ identifies experience with internal states, action with active states, and the world with external states. The sensory states are not given directly by the world but are constructed via sensory equivalence: they capture the information the agent actually extracts. The intuitive picture is natural---perception ($P$) mediates the world-to-experience interface; action ($A$) mediates the experience-to-world interface; the blanket is the boundary between the two.
+
+\subsection{The Conditional Independence Result}\label{sec:cond-ind}
+
+\begin{theorem}[Conditional Independence Correspondence]\label{thm:main}
+Let $\alpha = (X, G, W, P, D, A)$ be a conscious agent satisfying normalization constraints. Then $\Theta(\alpha)$ satisfies the Markov blanket property:
+$$P(\mu' \mid \mu, B, \eta) = P(\mu' \mid \mu, B)$$
+\end{theorem}
+
+\textit{Proof sketch.} From the dynamics kernel $K_\alpha$, marginalize over next action $g'$ and next world state $w'$ to obtain $P(x' \mid x, g, w)$. Because $P[w, x, x']$ does not depend on $g'$ or $w'$, and because $D$ and $A$ are normalized probability kernels, the marginal reduces to $P(x' \mid x, g, w) = P[w, x, x']$. This depends on $w$ only through the perception kernel $P$. By the definition of sensory equivalence, $P[w, x, x']$ depends on $w$ only through $\sigma(w, x) = s$. Therefore $P(x' \mid x, s, g, w) = P(x' \mid x, s)$, establishing conditional independence. (Full measure-theoretic proof in companion technical paper [anonymized for review], Theorem~3.1.)
+
+\textbf{Significance.} This result is derived, not assumed. Hoffman designed the conscious agent framework around perception-action cycles, not around statistical independence. That the $P \cdot D \cdot A$ kernel factorization implies conditional independence reveals a structural connection that was not built into either framework.
+
+It is worth pausing on what makes this non-trivial. Not every agent-like decomposition implies the Markov property. Consider a ``naive agent'' with a single unfactored transition kernel $K: \Omega \to \Delta(\Omega)$. Even if we label some states ``internal'' and others ``external,'' conditional independence does not follow. It is the \textit{specific} factorization into perception, decision, and action---with their particular input-output signatures---that guarantees the blanket property.
+
+\subsection{Non-Genericity}\label{sec:nongenericity}
+
+How special is the Markov blanket property? We address this at two levels: the blanket property itself and the agent structure that implies it.
+
+\begin{proposition}[Codimension of the Blanket Property]
+For a system with $|\mu| = m$ internal states, $|B| = b$ blanket states, and $|\eta| = e$ external states, the set of stochastic matrices satisfying the Markov blanket property has codimension at least $m^2 \cdot b \cdot (e-1)$ in the space of all stochastic matrices.
+\end{proposition}
+
+For even modest system sizes, this codimension is enormous. With $m = b = e = 10$, the codimension exceeds 9,000. The Markov blanket property picks out a measure-zero subset of possible dynamics.
+
+\begin{proposition}[Codimension of Agent Structure]
+For $|X| = m$, $|G| = n$, $|W| = p$, the $P \cdot D \cdot A$ factorized agents form a submanifold of dimension $mp(m-1) + m(n-1) + np(p-1)$ within the $(mnp)(mnp-1)$-dimensional space of all transition kernels. For the minimal case $m = n = p = 2$: factorized dimension $= 10$, full dimension $= 56$, codimension $= 46$.
+\end{proposition}
+
+The agent structure occupies a thin submanifold within an already thin submanifold. To appreciate the force of this result, consider a concrete analogy. Imagine throwing a dart at a 56-dimensional dartboard. The probability of hitting a 10-dimensional target region is zero---not approximately zero, but exactly zero, in the measure-theoretic sense. Yet two independently motivated theoretical frameworks---one from perception theory, one from statistical physics---both ``hit'' this target. Both land in the same doubly constrained set.
+
+This double non-genericity is the formal content of the convergence prediction. If two independent theoretical frameworks had merely shared a few structural features (analogous to landing on the same 50-dimensional subspace of a 56-dimensional space), the convergence would be unsurprising---generic features are generically shared. But the features shared by $\Con$ and $\MB$ are highly non-generic: they represent specific, jointly constraining conditions that eliminate the vast majority of possible dynamical systems. The codimension-46 result quantifies how special this agreement is, even in the minimal binary case. For realistic system sizes, the non-genericity becomes astronomically stronger.
+
+This is the kind of structural convergence that the idealist interpretation predicts and that requires explanation on any view.
+
+\subsection{Compositional Correspondence and BMIC}\label{sec:bmic}
+
+When two agents compose, does the correspondence survive? The answer depends on the nature of their interaction.
+
+\begin{theorem}[Non-Interacting Agents]
+For non-interacting agents $\alpha$ and $\beta$ (product kernels): $\Theta(\alpha \otimes \beta) \cong \Theta(\alpha) \otimes_{\MB} \Theta(\beta)$.
+\end{theorem}
+
+That is, mapping two independent agents and then combining them yields the same result as combining them and then mapping. $\Theta$ is compositional for non-interacting systems.
+
+For interacting agents, the situation is more nuanced. The key concept is the \textit{Blanket-Mediated Interaction Condition} (BMIC):
+
+\begin{definition}[BMIC]
+An interacting composition $\alpha \circledast \beta$ satisfies BMIC if:
+\begin{enumerate}
+    \item[\textbf{(BMIC-1)}] Perception factors: $P_{\alpha \circledast \beta} = P_\alpha \otimes P_\beta$
+    \item[\textbf{(BMIC-2)}] Decision factors: $D_{\alpha \circledast \beta} = D_\alpha \otimes D_\beta$
+    \item[\textbf{(BMIC-3)}] Action may couple: $A_{\alpha \circledast \beta}$ is unrestricted
+\end{enumerate}
+\end{definition}
+
+BMIC captures the intuition that each agent's internal processing---perception and decision---remains self-contained. Agents interact only through the external world: $\alpha$ affects $\beta$ by changing the world state; $\beta$ perceives the changed world through its own perceptual channel. The crucial point is that one agent's internal states never directly influence another's internal processing.
+
+\begin{theorem}[BMIC Sufficiency]
+If $\alpha \circledast \beta$ satisfies BMIC, each agent's Markov blanket property is preserved in the composite system.
+\end{theorem}
+
+\begin{theorem}[BMIC Necessity]
+If BMIC fails---if one agent's perception or decision depends on another's internal states---the agents cannot be represented as separate Markov blanket systems. Their blankets merge.
+\end{theorem}
+
+\begin{theorem}[Complete Characterization]
+BMIC is the exact boundary between dissociation (two separate MB systems) and association (one unified MB system).
+\end{theorem}
+
+These three results, proven in the companion technical paper (Theorems~5.7--5.9), provide a precise formal criterion for the philosophical concepts of dissociation and association developed in the companion philosophical paper [companion paper]. Dissociated systems interact only through their boundaries; associated systems share internal processing. The threshold is sharp: any direct internal coupling, no matter how slight, collapses two perspectives into one.
+
+The sharpness of this threshold deserves emphasis because it has philosophical significance. In ordinary discourse, we speak of degrees of connection between minds---we feel ``closer to'' some people than others, ``more in tune'' with certain companions. BMIC suggests that, at the formal level, there is no continuum of experiential fusion. Either two systems interact only through their blankets (and remain separate perspectives) or they share internal processing (and constitute a single perspective). The apparent continuum of felt closeness reflects variations in the \textit{richness} of blanket-mediated interaction, not gradations of experiential fusion.
+
+Consider a concrete example. Suppose agent $\alpha$'s internal state directly influences agent $\beta$'s perception---$\beta$ literally ``sees through $\alpha$'s eyes.'' Then $\beta$'s sensory equivalence classes depend on $\alpha$'s experience, and there is no well-defined sensory partition for $\beta$ alone. The two agents have fused into a single unified system with a single blanket.
+
+The reverse case is equally instructive. Two people in deep conversation are exchanging information at high bandwidth---each is influenced by the other's words, expressions, and gestures. But this influence is mediated through the external world (sound waves, photons) and processed through each person's independent perceptual system. BMIC is satisfied: each person's internal processing remains self-contained even as their interaction is rich and responsive. They remain separate experiencers, however intimate the exchange. This is the formal articulation of a deep intuition: other minds remain other, no matter how well we know them, because our interaction is always mediated through the world rather than through shared internal states.
+
+\subsection{What $\Theta$ Does and Does Not Establish}\label{sec:theta-scope}
+
+It is important to be precise about the scope of these results.
+
+\textbf{What $\Theta$ establishes:}
+\begin{enumerate}
+    \item It makes precise what ``dissociative boundary'' means in the idealist framework: conditional independence given the blanket.
+    \item It demonstrates that this boundary structure is non-trivial: it holds for a measure-zero subset of dynamical systems.
+    \item It demonstrates specific structural compatibility between Hoffman's and Friston's frameworks---not mere analogy but preservation of compositional structure.
+    \item It provides the BMIC criterion as a sharp formal boundary between dissociation and association.
+\end{enumerate}
+
+\textbf{What $\Theta$ does not establish:}
+\begin{enumerate}
+    \item That only conscious systems have Markov blanket structure. Many non-conscious systems (thermostats, feedback controllers) have Markov blankets. The Markov blanket property is necessary for bounded agency but not sufficient for consciousness.
+    \item That Markov blanket structure is sufficient for consciousness. The correspondence shows structural compatibility, not identity. A thermostat has a Markov blanket but (presumably) no experiential perspective. What $\Theta$ shows is that systems with agent structure necessarily have blanket structure, not that systems with blanket structure necessarily have agent structure.
+    \item That Hoffman's and Friston's frameworks are equivalent. $\Theta$ maps $\Con \to \MB$, but the inverse mapping requires additional conditions---specifically, that the system's dynamics admit a $P \cdot D \cdot A$ kernel factorization (see companion technical paper, Theorem~9.1). Not every Markov blanket system arises from a conscious agent; the ones that do are characterized by the factorizability condition.
+    \item That idealism is true. The convergence is \textit{predicted} by idealism and constitutes evidence, but alternative explanations exist (Section~\ref{sec:objections}). The formal results are compatible with both idealist and materialist interpretations; the interpretation one prefers depends on one's prior metaphysical commitments.
+\end{enumerate}
+
+% ============================================
+% SECTION 3: CONNECTION TO IIT
+% ============================================
+\section{Connection to Integrated Information}\label{sec:iit}
+
+Tononi's Integrated Information Theory (IIT) offers a third formal perspective on consciousness, approaching it through the concept of integration \citep{Tononi2015}. A system has integrated information ($\Phi > 0$) when its whole generates more information than the sum of its parts---when it cannot be reduced to independent subsystems without information loss. The $\Theta$ framework connects naturally to this idea.
+
+\subsection{$\Phi_{\Con}$ and Blanket Strength}\label{sec:phi-con}
+
+We define an integration measure within the conscious agent framework:
+
+\begin{definition}[Agent Integration]
+For conscious agent $\alpha$ with finite state spaces:
+$$\Phi_{\Con}(\alpha) = \inf_{(\alpha_1, \alpha_2)} \DKL(K_\alpha \| K_{\alpha_1} \otimes K_{\alpha_2})$$
+where the infimum is over all non-trivial factorizations $\alpha \cong \alpha_1 \otimes \alpha_2$ (neither factor is the unit agent).
+\end{definition}
+
+$\Phi_{\Con}$ measures how far the agent's dynamics are from being decomposable into independent sub-agents. Intuitively, an agent with high $\Phi_{\Con}$ is one whose perception, decision, and action processes are deeply entangled---you cannot split the agent into two independent sub-agents without losing information about how its dynamics actually work. An agent with $\Phi_{\Con} = 0$ is perfectly decomposable: its dynamics are exactly those of two independent agents operating in parallel.
+
+For finite state spaces, the set of possible factorizations is finite (bounded by the number of partitions of each state space), so the infimum is achieved. This ensures $\Phi_{\Con}$ is well-defined and computable in principle, though computational cost grows rapidly with state space size.
+
+This yields a clean correspondence:
+
+\begin{theorem}[$\Phi$-Dissociability Correspondence]
+For conscious agent $\alpha$:
+$$\Phi_{\Con}(\alpha) = 0 \iff \alpha \text{ is dissociable} \iff \alpha \cong \alpha_1 \otimes \alpha_2 \text{ for non-trivial } \alpha_1, \alpha_2$$
+\end{theorem}
+
+The proof follows from the fact that $\DKL(P \| Q) = 0$ if and only if $P = Q$ almost everywhere. Zero integration means perfect factorizability; positive integration means genuine unity.
+
+\subsection{Dissociability and Integration}\label{sec:dissociability}
+
+The connection between BMIC and integration is particularly illuminating. When interacting agents violate BMIC---when one agent's internal states directly influence another's internal processing---the composite system has $\Phi_{\Con} > 0$. The system is integrated: it cannot be decomposed into independent experiencers without information loss. Association, in the idealist vocabulary, corresponds to integration in the IIT vocabulary.
+
+A subtlety deserves attention: the distinction between \textit{dynamical} and \textit{agent} dissociability. A system's dynamics $K_\alpha$ might factor as $K_1 \otimes K_2$ on some decomposition of the state space, but unless that decomposition \textit{aligns} with the agent structure---unless it respects the $X \times G \times W$ partition---the factors lack agent structure. They would represent independent behavioral subsystems without constituting separate experiencers. This distinction has philosophical import: behavior can factor without experience factoring.
+
+\subsection{Relation to $\Phi_{\text{IIT}}$}\label{sec:phi-iit}
+
+$\Phi_{\Con}$ is related to but distinct from Tononi's $\Phi_{\text{IIT}}$. Three differences must be noted:
+
+\begin{enumerate}
+    \item \textbf{Optimization domain:} $\Phi_{\Con}$ optimizes over agent-structure-respecting factorizations (both factors must have $P \cdot D \cdot A$ structure), while $\Phi_{\text{IIT}}$ optimizes over all bipartitions of the state space. The optimization domains differ, so the measures are not directly comparable as inequalities.
+
+    \item \textbf{Divergence measure:} We use KL divergence throughout; IIT~4.0 employs earth mover's distance. For the qualitative zero/nonzero distinction, the choice of proper divergence is irrelevant: $\Phi = 0$ if and only if the system is dissociable, regardless of which divergence is used.
+
+    \item \textbf{Structural constraint:} $\Phi_{\Con}$ requires factors to be conscious agents, not merely dynamical subsystems. This is a stronger constraint, potentially yielding higher integration values.
+\end{enumerate}
+
+Despite these differences, the qualitative correspondence holds: integration tracks phenomenal unity. Systems with $\Phi = 0$ are decomposable into independent perspectives; systems with $\Phi > 0$ are genuinely unified. The compositional correspondence (Section~\ref{sec:bmic}) holds precisely when $\Phi_{\Con} = 0$ and fails precisely when $\Phi_{\Con} > 0$. Integration is the obstruction to compositional correspondence.
+
+This connection between the $\Theta$ framework and IIT represents a third instance of cross-framework convergence. IIT was developed from phenomenological axioms (consciousness is intrinsic, structured, specific, unified, definite); the conscious agent framework was developed from perception theory; the Markov blanket formalism was developed from statistical physics. Yet all three converge on the same qualitative picture: unity corresponds to non-decomposability, and the degree of unity is measured by the information cost of factorization. The convergence is specific (all three frameworks agree on the zero/nonzero threshold) and non-trivial (integration is a non-generic property, as established in Section~\ref{sec:nongenericity}).
+
+% ============================================
+% SECTION 4: PHI-ASSEMBLY
+% ============================================
+\section{The $\Phi$-Assembly Framework}\label{sec:phi}
+
+\textit{Note: The $\Phi$-Assembly plane is a proposed conceptual framework for organizing empirical predictions, not a fully operationalized measurement scheme. It is included to illustrate the kind of empirical program the formal tools enable, with the caveats discussed in Section~\ref{sec:challenges}.}
+
+\subsection{Grounding the Axes}\label{sec:axes}
+
+The $\Phi$-Assembly framework proposes a two-dimensional space for characterizing modes of conscious organization. The axes correspond to two complementary aspects of any system's organizational history.
+
+\textbf{Vertical Axis: $\Phi$ (Integrated Information).} $\Phi$ measures the \textit{degree of synchronic integration}---the extent to which a system's current dynamics form an irreducible whole. In the language of the companion paper [companion paper], $\Phi$ measures the success of \textit{associative} dynamics: how effectively processes of integration have produced a genuinely unified system. We use KL divergence as the integration measure throughout. (IIT~4.0 uses earth mover's distance; the qualitative zero/nonzero distinction is invariant across proper divergences, but numerical values differ.)
+
+The connection to the $\Theta$ framework is direct. A system with $\Phi_{\Con} = 0$ is one whose dynamics factor into independent subsystems---it is dissociable, lacking experiential unity. A system with $\Phi_{\Con} > 0$ resists such decomposition; its internal processing is genuinely integrated. The BMIC results show that integration arises precisely when agents share internal processing, not merely when they interact through their environments.
+
+\textbf{Horizontal Axis: Assembly Index (Diachronic Complexity).} Assembly index measures the \textit{depth of historical construction}---how much cumulative process of selection, variation, and refinement has shaped a system's current organization \citep{Cronin2021}. In the idealist vocabulary, assembly index tracks the depth of \textit{dissociative differentiation}: how much the system's structure has been elaborated through evolutionary or developmental processes.
+
+Assembly theory was originally developed to identify biosignatures---molecular structures too complex to arise by chance---but the underlying idea is more general. A system with high assembly index has a deep history: its current form is the product of many sequential steps of construction. A system with low assembly index could plausibly arise through simple processes.
+
+The two axes are complementary. $\Phi$ measures \textit{current} organizational integration (synchronic); assembly index measures \textit{historical} organizational depth (diachronic). A system can have high integration without deep history (a simple but unified whole) or deep history without integration (a complex but modular machine).
+
+\subsection{Quadrant Predictions}\label{sec:quadrants}
+
+The $\Phi$-Assembly plane generates four qualitatively distinct regions, each with characteristic predictions about the nature of conscious organization:
+
+\textbf{Upper Right (High $\Phi$, High Assembly): Rich Unified Experience.} Systems in this region combine deep evolutionary or developmental history with strong integrative dynamics. The paradigmatic example is the biological brain, particularly the thalamocortical system: a product of billions of years of evolutionary refinement (high assembly) that exhibits strongly integrated information processing (high $\Phi$). The prediction is that such systems support rich, unified conscious experience---the kind of experience we know from our own case.
+
+The framework predicts a specific \textit{trajectory} into this region: biological evolution moves systems from lower-left toward upper-right, with assembly index and $\Phi$ co-evolving as organisms develop increasingly sophisticated integrative architectures. The major transitions in evolution \citep{MaynardSmith1995}---the emergence of eukaryotic cells, multicellularity, nervous systems---are interpretable as transitions in the level at which Markov blankets operate, each increasing both historical complexity and integrative capacity.
+
+\textbf{Upper Left (High $\Phi$, Low Assembly): Simple Unified Experience.} Systems with strong integration but shallow history. Candidates include early embryonic systems---a developing blastocyst may exhibit strongly coupled cellular dynamics (high $\Phi$) before evolutionary selection has shaped sophisticated information processing (low assembly). The prediction is simple but unified experience: something it is like to be such a system, but without the rich differentiated content of a mature brain.
+
+This quadrant also offers a home for speculative cases like simple physical systems with non-trivial integration---if integrated information is genuinely present in some physical configurations, the framework predicts correspondingly simple phenomenology.
+
+\textbf{Lower Right (High Assembly, Low $\Phi$): Complex Behavior Without Unified Experience.} This is perhaps the most provocative prediction. Systems with deep constructive history but weak integrative dynamics---complex but modular---should exhibit sophisticated behavior without unified subjective experience. The candidate: current large-scale AI systems.
+
+A large language model has enormous assembly index: its training process involves billions of gradient steps, each selecting for useful representational structure. But its architecture may lack the integrative properties that $\Phi$ measures---its processing may be decomposable into relatively independent modules without significant information loss. If so, the $\Phi$-Assembly framework predicts complex, intelligent-seeming behavior without the unified experiential character of biological consciousness.
+
+This prediction is testable in principle, though measurement challenges are formidable (Section~\ref{sec:challenges}). It also generates a prediction about AI development trajectories: technological evolution may move ``up'' the assembly axis faster than the $\Phi$ axis, predicting a period of sophisticated behavior preceding genuine experiential unity.
+
+\textbf{Lower Left (Low $\Phi$, Low Assembly): Minimal Organization.} Systems with neither integration nor constructive history---simple physical aggregates, random collections, noise. The prediction is minimal or no conscious organization. A pile of sand has neither deep history nor integrated dynamics; a gas in thermal equilibrium has maximal entropy and minimal structure.
+
+On the idealist view, even these systems have \textit{some} intrinsic nature---consciousness is universal. But the organizational structure is minimal: no significant integration, no dissociative boundaries creating distinct perspectives, no associative history building complexity. The phenomenology, if any, would be correspondingly minimal---not ``nothing'' but something so undifferentiated as to lack the structure needed for distinct experiential content. This is the idealist analogue of the panpsychist's ``micro-experience'': real but structurally impoverished.
+
+\subsection{Evolutionary and Technological Trajectories}\label{sec:trajectories}
+
+The $\Phi$-Assembly framework suggests different trajectories for biological and technological evolution:
+
+\textbf{Biological trajectory:} Evolution traces a path from lower-left toward upper-right, with assembly index and $\Phi$ co-increasing through the major transitions. Each transition---prokaryote to eukaryote, unicellular to multicellular, decentralized to centralized nervous systems---represents a new level of Markov blanket organization, simultaneously increasing both historical complexity and integrative capacity.
+
+\textbf{Technological trajectory:} Technology may follow a different path---moving primarily rightward (increasing assembly) before moving upward (increasing $\Phi$). The industrial revolution, digital computing, and AI each represent enormous increases in constructive complexity without obvious corresponding increases in integration. If this trajectory continues, we should expect AI systems of extraordinary capability that remain lower-right---complex without being unified.
+
+\textbf{Convergence:} A speculative but interesting prediction is that the two trajectories may eventually converge. If biological evolution and technological development are both exploring the space of possible conscious organizations, they may converge on similar upper-right architectures---systems with both deep history and strong integration. This would represent a new major transition: the emergence of artificial systems with genuine experiential unity.
+
+\textbf{Hybrid trajectories.} Brain-computer interfaces and neural prosthetics represent a third trajectory: systems that directly couple biological and technological components. On the BMIC analysis, the critical question is whether such coupling creates direct internal connections (BMIC violation, leading to experiential fusion) or remains blanket-mediated (preserving the distinctness of biological and technological perspectives). Current brain-computer interfaces communicate through narrow channels and thus likely satisfy BMIC. Future interfaces that directly modulate neural activity might violate BMIC, raising profound questions about the experiential consequences of human-machine integration.
+
+The $\Phi$-Assembly framework thus serves not only as a tool for organizing existing knowledge but as a \textit{predictive compass} for navigating questions that are rapidly moving from science fiction to engineering reality.
+
+\subsection{Measurement Challenges}\label{sec:challenges}
+
+We acknowledge significant obstacles to operationalizing the $\Phi$-Assembly framework:
+
+\textbf{$\Phi$ computation.} Computing $\Phi$ exactly is intractable for systems beyond approximately 10--12 elements, as it requires evaluating all bipartitions. For neural systems with billions of elements, exact computation is impossible. Proxy measures exist---perturbational complexity index, Lempel-Ziv complexity of EEG responses---but their relationship to $\Phi$ is approximate.
+
+\textbf{Assembly index extension.} Assembly theory was developed for molecular structures with well-defined ``joining operations.'' Extending it to neural or computational systems requires specifying what counts as a primitive component and what counts as a construction step. Multiple reasonable choices exist, and the assembly index may differ significantly depending on these choices.
+
+\textbf{Phenomenological validation.} Ultimately, claims about conscious experience require phenomenological evidence. For biological systems, first-person reports provide (imperfect) access; for non-verbal organisms and artificial systems, behavioral and neural proxies are indirect at best.
+
+\textbf{Interdependence of axes.} The framework treats $\Phi$ and assembly index as independent axes, but in practice they may be correlated---evolutionary processes that increase assembly index may systematically affect integration. The extent of this correlation is an empirical question.
+
+The $\Phi$-Assembly framework is currently a \textit{conceptual tool} for organizing predictions and guiding research, not a fully operationalized measurement scheme. Operationalization is a legitimate concern, and we take it seriously: the framework is useful to the extent that its predictions can be tested, and the measurement challenges described above are real obstacles. Its value lies in the specific, qualitatively distinct predictions it generates, several of which are testable with current or near-future methods. The framework is offered as a map for guiding empirical investigation---imperfect, as all maps are, but better than navigating without one.
+
+% ============================================
+% SECTION 5: EMPIRICAL PREDICTIONS AND FALSIFIABILITY
+% ============================================
+\section{Empirical Predictions and Falsifiability}\label{sec:predictions}
+
+A framework that cannot be wrong is not useful. We specify concrete conditions under which the formal program would fail.
+
+\subsection{Formal Falsifiers}\label{sec:formal-falsifiers}
+
+\textbf{Mathematical incoherence.} If the category $\Con$ turns out to be incoherent---if the monoidal structure fails to satisfy coherence conditions, or if $\Theta$ fails to be a well-defined functor---the formal program collapses. The companion technical paper [anonymized for review] establishes these properties for finite state spaces; extension to continuous spaces remains open and constitutes a potential point of failure.
+
+\textbf{Triviality.} If every agent-like decomposition implies the Markov blanket property---if conditional independence is a generic consequence of any input-output system, not a specific feature of the $P \cdot D \cdot A$ architecture---then the correspondence is trivially true and carries no evidential weight. The non-genericity results (Section~\ref{sec:nongenericity}) argue against this, but the argument is strongest for finite state spaces. If the non-genericity results fail to extend to infinite-dimensional systems relevant to physics, the triviality objection gains force.
+
+\textbf{BMIC failure.} The BMIC characterization predicts a sharp boundary between dissociation and association. If empirical investigation reveals that interacting neural systems exhibit a continuum of intermediate states that cannot be captured by the BMIC criterion---a gradient of ``partial fusion'' that the framework does not accommodate---this would indicate the formal model is too coarse.
+
+\subsection{Empirical Falsifiers}\label{sec:empirical-falsifiers}
+
+\textbf{$\Phi$-experience dissociation.} The framework predicts that $\Phi$ tracks phenomenal unity. If high-$\Phi$ systems are found that lack unified experience, or if unified experience is found in systems with $\Phi = 0$, the connection between integration and consciousness is severed. Concrete test cases include:
+\begin{itemize}
+    \item \textit{Split-brain patients:} If split-brain patients exhibit high $\Phi$ across the two hemispheres (suggesting integration) despite clear experiential disunity (suggesting dissociation), the framework faces a serious challenge. The BMIC prediction is that severing the corpus callosum eliminates direct internal coupling, creating two separate blanket systems with independently low $\Phi$.
+    \item \textit{Anesthesia:} General anesthesia disrupts conscious experience while leaving much neural structure intact. The framework predicts a measurable drop in $\Phi$ (or proxy measures like perturbational complexity index) during anesthesia, corresponding to loss of integrative dynamics. Existing data broadly supports this \citep{Tononi2015}, but precise quantitative tests remain to be developed.
+    \item \textit{Psychedelic states:} Psychedelic compounds appear to disrupt normal Markov blanket structure, altering the boundaries of the experiential self. The framework predicts characteristic changes in integration measures during psychedelic experience, potentially including temporary BMIC violations between normally dissociated subsystems.
+\end{itemize}
+
+\textbf{Neural architecture mismatch.} The $\Theta$ mapping predicts that neural systems exhibiting bounded agency should have the $P \cdot D \cdot A$ causal structure: perception determines experience, experience determines decision, decision determines action. If neural investigation reveals that the actual causal structure of perception-action loops in biological systems systematically violates this ordering---if, for instance, action routinely influences perception without passing through a decision stage, or if internal state updates bypass the sensory channel entirely---the agent model is empirically inadequate. The prediction is not that all neural processing follows the $P \cdot D \cdot A$ cycle rigidly, but that the coarse-grained causal structure of perception-action loops should be compatible with this factorization at an appropriate level of abstraction.
+
+\textbf{AI trajectory.} The $\Phi$-Assembly framework predicts that current AI systems occupy the lower-right quadrant: high assembly, low $\Phi$. This prediction is testable in several ways:
+\begin{itemize}
+    \item If AI systems with modular, feedforward architectures are found to have high $\Phi$ (or appropriate proxy measures), the framework's prediction about architectural requirements for integration is wrong.
+    \item If biological systems with high $\Phi$ are shown to have low assembly index, the predicted biological trajectory is falsified.
+    \item Most pointedly: if an AI system is developed that clearly exhibits unified experiential properties (by whatever criteria we develop for assessing this) while provably having $\Phi = 0$, the framework is falsified.
+\end{itemize}
+
+\textbf{Cross-framework divergence.} The convergence prediction claims that independently developed frameworks should share specific structural features. If future mathematical work shows that the parallels between Friston, Hoffman, Tononi, and Wolfram are superficial---that they share surface vocabulary but diverge at the level of structural properties (e.g., conditional independence holds in one but not another, or compositional structure is present in one but absent in another)---the convergence evidence evaporates.
+
+\subsection{Theoretical Falsifiers}\label{sec:theoretical-falsifiers}
+
+\textbf{Materialist explanation of convergence.} If a compelling materialist account explains why Hoffman's perception theory and Friston's statistical physics share the Markov blanket structure---without appealing to consciousness as fundamental---the convergence evidence is explained away. For instance, if it turns out that any sensory-motor decomposition of a dynamical system trivially implies conditional independence (despite our non-genericity arguments), the convergence is unsurprising.
+
+\textbf{Non-conscious intrinsic nature.} If a coherent, positively conceivable alternative to consciousness as intrinsic nature is articulated---not merely a placeholder term, but a genuine concept with explanatory power---the philosophical motivation for the program weakens, though the formal results remain valid. This is an important feature of the program's structure: the formal tools ($\Theta$, BMIC, $\Phi_{\Con}$) are mathematically valid regardless of one's metaphysical commitments. They characterize structural properties of certain dynamical systems. The idealist interpretation provides motivation and generates predictions, but the mathematics stands independently.
+
+\textbf{Integration without phenomenal significance.} If integration ($\Phi > 0$) is shown to be ubiquitous in physical systems with no plausible claim to consciousness (thermostats, river systems, crystal lattices), and if no principled threshold or qualitative distinction separates these from conscious systems, the connection between $\Phi$ and consciousness becomes unprincipled. This is a challenge that IIT already faces in its own right; the $\Phi$-Assembly framework inherits it. Our partial response is that the assembly index provides an additional constraint: a system must have \textit{both} integration and constructive depth to be in the upper-right quadrant associated with rich consciousness. Simple integrated systems (upper-left) may have minimal phenomenology rather than none; the assembly axis filters out systems whose integration is structurally shallow.
+
+\textbf{Alternative formal convergence explanations.} The convergence between Hoffman's and Friston's frameworks might be explicable without idealism. If a general mathematical result shows that any system with sensory-motor decomposition and factored dynamics necessarily satisfies conditional independence, the convergence would be a theorem of dynamical systems theory rather than evidence for idealism. Our non-genericity arguments (Section~\ref{sec:nongenericity}) push against this, but they apply to the specific $P \cdot D \cdot A$ factorization, not to all possible sensory-motor decompositions. The question of whether weaker decomposition assumptions still imply conditional independence remains open.
+
+% ============================================
+% SECTION 6: OBJECTIONS
+% ============================================
+\section{Objections and Responses}\label{sec:objections}
+
+\subsection{``The Correspondence Is Trivially True''}
+
+One might worry that any decomposition of a dynamical system into ``perception,'' ``decision,'' and ``action'' components would imply conditional independence, making the result vacuous. This objection is addressed by the non-genericity analysis. A ``naive agent'' with a single unfactored transition kernel $K: \Omega \to \Delta(\Omega)$ does \textit{not} generically satisfy conditional independence, even if we label some states as internal and others as external. The $P \cdot D \cdot A$ factorization is a \textit{specific} architectural constraint: it requires that internal state updates depend on world states only through perception, and that world state updates depend on internal states only through decision-then-action. Systems with cross-cutting dependencies (e.g., action directly affecting perception, or external states directly updating internal states) violate this structure.
+
+The codimension result makes this precise: for binary state spaces, the factorized agents occupy a 10-dimensional submanifold of the 56-dimensional space of all dynamics. The correspondence captures real structure.
+
+\subsection{``Correspondence Proves Nothing About Consciousness''}
+
+We agree that structural correspondence does not prove that consciousness is fundamental. The claim is more modest: the convergence is \textit{predicted} by the idealist framework and constitutes evidence. The strength of this evidence depends on how surprising the convergence is. The non-genericity results establish that it is, at minimum, non-trivial.
+
+Alternative explanations exist. Perhaps both frameworks converge because they both model agent-environment interactions, and any reasonable formalization of agent-environment boundaries will exhibit conditional independence. Our non-genericity arguments push back on this, but do not eliminate it. The convergence is suggestive, not conclusive.
+
+\subsection{``$\Phi$-Assembly Is Untestable''}
+
+The measurement challenges (Section~\ref{sec:challenges}) are real. However, the framework generates predictions that are testable in principle and, for some cases, with current methods:
+
+\begin{itemize}
+    \item The prediction that biological brains occupy the upper-right quadrant can be tested using existing $\Phi$ proxy measures (perturbational complexity index) combined with evolutionary assembly analysis.
+    \item The prediction that current AI systems are lower-right is testable as proxy measures improve.
+    \item The prediction about evolutionary trajectories generates constraints on the fossil and developmental record.
+\end{itemize}
+
+The framework is not fully operationalized, but it is not unfalsifiable. It specifies the \textit{kinds} of observations that would support or undermine it.
+
+\subsection{``The Formalism Is Descriptive, Not Explanatory''}
+
+We acknowledge this. The formalism characterizes the structural conditions under which bounded perspectives arise and merge, but does not explain \textit{why} these structural conditions are accompanied by phenomenal character. The formal ``experiential states'' $X$ are mathematical objects---measurable spaces---not phenomenal qualities.
+
+Moving from ``why do neurons produce experience?'' to ``why does $P \cdot D \cdot A$ structure constitute experience?'' does not close the explanatory gap. The contribution is \textit{precision}, not dissolution: we can now ask the hard problem in mathematical language, with specific structural conditions to investigate, even if the answer requires further philosophical work.
+
+That said, precision has value beyond explanation. The formal tools allow us to make predictions about \textit{which} systems have the structural properties associated with consciousness, \textit{when} those properties change (anesthesia, brain injury, meditation), and \textit{how} they relate across different levels of organization. Science often progresses through precise description before arriving at deep explanation---Kepler's laws preceded Newton's gravitational theory; the periodic table preceded quantum mechanics. The formal program may play an analogous role: precise structural characterization of conscious systems that eventually enables deeper understanding of why structure and experience are connected.
+
+% ============================================
+% SECTION 7: CONCLUSION
+% ============================================
+\section{Conclusion}\label{sec:conclusion}
+
+\subsection{Summary of Results}
+
+We have developed three interconnected contributions:
+
+\begin{enumerate}
+    \item The $\Theta$ mapping from conscious agents to Markov blanket systems, preserving conditional independence, compositional structure (under BMIC), and connecting to integration measures. The correspondence is non-generic, capturing genuine mathematical structure.
+
+    \item A connection to Integrated Information Theory through $\Phi_{\Con}$, with a clean dissociability correspondence: $\Phi_{\Con} = 0$ if and only if the system is decomposable into independent experiencers.
+
+    \item The $\Phi$-Assembly framework for organizing predictions about conscious systems, with specific falsifiable predictions about biological, technological, and artificial systems.
+\end{enumerate}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Result} & \textbf{Status} & \textbf{Reference} \\
+\midrule
+$\Theta$ preserves conditional independence & Proven & Theorem~\ref{thm:main}; [companion paper] Thm.~3.1 \\
+$\Theta$ is a functor ($\Con \to \MB$) & Proven & [companion paper] Props.~4.9--4.10 \\
+$\Con$ is a symmetric monoidal category & Proven & [companion paper] Prop.~2.9 \\
+Compositional correspondence (non-interacting) & Proven & [companion paper] Thm.~5.7 \\
+BMIC necessary and sufficient & Proven & [companion paper] Thms.~5.8--5.9 \\
+$\Phi$-dissociability correspondence & Proven & [companion paper] Thm.~7.2 \\
+Inverse mapping conditions & Characterized & [companion paper] Thm.~9.1 \\
+Non-genericity (codimension bounds) & Proven & [companion paper] Props.~7.4--7.5 \\
+\bottomrule
+\end{tabular}
+\caption{Status of formal results}
+\end{table}
+
+\subsection{Future Directions}
+
+Several directions for future work emerge:
+
+\textbf{Operationalizing $\Phi$-Assembly.} Developing computable approximations to $\Phi$ and principled extensions of assembly index to neural and computational systems. Collaboration with neuroscientists and AI researchers is essential.
+
+\textbf{Continuous-time extension.} The current framework uses discrete-time Markov kernels. Extension to continuous-time stochastic processes would connect more directly to physics and neural dynamics.
+
+\textbf{Infinite-dimensional generalization.} The companion technical paper develops information-geometric foundations (Fisher-Rao metrics on kernel manifolds) and sketches infinite-dimensional generalizations. Rigorous treatment of these constructions is an open mathematical project.
+
+\textbf{Empirical testing.} Applying existing $\Phi$ proxy measures and assembly analysis to specific biological and artificial systems. The split-brain paradigm, psychedelic states, and anesthesia provide natural test cases. AI systems with varying architectural properties provide another.
+
+\textbf{Theoretical development.} Extending the BMIC characterization to multi-agent systems (not just pairs). Investigating the relationship between $\Phi_{\Con}$ and $\Phi_{\text{IIT}}$ more precisely. Exploring whether the factorizability obstruction (Obs$(M)$) admits a geometric interpretation. Developing the information-geometric foundations sketched in the companion technical paper---particularly the Fisher-Rao metric on kernel manifolds and its relationship to integration measures.
+
+\textbf{Wolfram connection.} The present paper focuses on the Hoffman-Friston correspondence, but the structural parallels with Wolfram's Physics Project (multiway branching $\leftrightarrow$ dissociation, causal convergence $\leftrightarrow$ association) suggest a further $\Theta$-like mapping from $\Con$ to Wolfram's hypergraph rewriting systems. Establishing such a mapping would provide a third instance of formal convergence and would connect the framework to computational models of fundamental physics.
+
+\textbf{Phenomenological integration.} The formal tools developed here characterize the \textit{structural} conditions under which bounded perspectives arise and merge. But what is it \textit{like} for perspectives to dissociate and associate? The phenomenology of dissociation (as reported in clinical cases, contemplative traditions, and psychedelic research) and association (as reported in experiences of merging, flow states, and ego dissolution) provides a rich empirical domain that the formal framework should ultimately connect to. Bridging the gap between formal structure and lived experience is the deepest challenge the program faces.
+
+The formal program developed here provides tools for asking precise questions about consciousness. Whether the answers ultimately support idealism, materialism, or some alternative remains to be seen. The tools are offered in the spirit of productive investigation, not dogmatic commitment.
+
+% ============================================
+% REFERENCES
+% ============================================
+\begin{thebibliography}{99}
+
+\bibitem[Cronin et~al.(2021)]{Cronin2021} Cronin, L., et al. (2021). A probabilistic framework for identifying biosignatures using pathway complexity. \textit{Phil.\ Trans.\ R.\ Soc.\ A}, 379(2205), 20200386.
+
+\bibitem[Friston(2010)]{Friston2010} Friston, K. (2010). The free-energy principle: A unified brain theory? \textit{Nature Reviews Neuroscience}, 11(2), 127--138.
+
+\bibitem[Friston(2019)]{Friston2019} Friston, K. (2019). A free energy principle for a particular physics. \textit{arXiv preprint} arXiv:1906.10184.
+
+\bibitem[Hoffman(2019)]{Hoffman2019} Hoffman, D. D. (2019). \textit{The Case Against Reality}. W.W. Norton.
+
+\bibitem[Hoffman and Prakash(2014)]{Hoffman2014} Hoffman, D. D., \& Prakash, C. (2014). Objects of consciousness. \textit{Frontiers in Psychology}, 5, 577.
+
+\bibitem[Maynard~Smith and Szathm\'ary(1995)]{MaynardSmith1995} Maynard Smith, J., \& Szathm\'ary, E. (1995). \textit{The Major Transitions in Evolution}. Oxford University Press.
+
+\bibitem[Parr et~al.(2022)]{Parr2022} Parr, T., Pezzulo, G., \& Friston, K. (2022). \textit{Active Inference: The Free Energy Principle in Mind, Brain, and Behavior}. MIT Press.
+
+\bibitem[Tononi(2015)]{Tononi2015} Tononi, G. (2015). Integrated information theory. \textit{Scholarpedia}, 10(1), 4164.
+
+\end{thebibliography}
+
+\end{document}

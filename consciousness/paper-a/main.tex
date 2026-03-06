@@ -1,0 +1,527 @@
+\documentclass[11pt,a4paper]{article}
+
+% ============================================
+% PACKAGES
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage[authoryear,round]{natbib}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{abstract}
+
+% ============================================
+% THEOREM ENVIRONMENTS
+% ============================================
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+
+% ============================================
+% CUSTOM COMMANDS
+% ============================================
+\newcommand{\Con}{\mathbf{Con}}
+\newcommand{\MB}{\mathbf{MB}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Real}{\mathbb{R}}
+
+% ============================================
+% HYPERREF SETUP
+% ============================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    citecolor=blue!60!black,
+    urlcolor=blue!60!black
+}
+
+% ============================================
+% DOCUMENT
+% ============================================
+\begin{document}
+
+% ============================================
+% TITLE PAGE
+% ============================================
+\title{\textbf{Consciousness as Intrinsic Nature:\\The Case for Structural Idealism}}
+
+\author{[Anonymized for review]}
+
+\date{February 2026\\[1em]
+\small Submitted to: Journal of Consciousness Studies}
+
+\maketitle
+
+\begin{abstract}
+This paper develops Structural Idealism: the thesis that consciousness is the intrinsic nature of physical structure and that this thesis admits rigorous formal investigation. Building on the intrinsic nature argument (Russell, Strawson, Goff) and Kastrup's analytic idealism, I argue that consciousness is not merely one candidate among many for intrinsic nature but the only candidate we can positively conceive, rendering alternatives empty placeholders rather than genuine theoretical competitors. I develop this argument through sustained engagement with the proto-phenomenal alternative, the illusionist challenge, and the unity of consciousness. I argue that mathematical structure is the self-articulation of conscious organization, dissolving Wigner's puzzle about the effectiveness of mathematics and generating a structural prediction: independently developed formalisms of conscious dynamics should converge. The framework introduces two fundamental dynamics---\textit{dissociation} (the differentiation of unified consciousness into bounded perspectives) and \textit{association} (the integration of bounded systems into larger wholes)---operative from cosmological to technological scales, and I argue that the subjects-summing problem, properly understood, favors idealism over its rivals. Formal tools developed in companion papers confirm that these dynamics admit precise mathematical characterization: the mapping $\Theta: \Con \to \MB$ between Hoffman's Conscious Agents and Friston's Markov Blankets preserves conditional independence, and the Blanket-Mediated Interaction Condition provides the formal boundary between dissociated and associated systems. I address the G\"odelian limits on conscious self-knowledge and argue that formal incompleteness is predicted, not problematic, within the idealist framework.
+\end{abstract}
+
+\noindent\textbf{Keywords:} consciousness, structural idealism, intrinsic nature, hard problem, analytic idealism, dissociation, association, mathematics, self-articulation, G\"odel
+
+\vspace{1em}
+\noindent\textbf{Companion papers:}\\
+\textit{Formal methods and empirical predictions:} [Anonymized for review].\\
+\textit{Technical proofs:} A companion technical paper with full measure-theoretic proofs is available as supplementary material [anonymized for review].
+
+\newpage
+\tableofcontents
+\newpage
+
+% ============================================
+% SECTION 1: INTRODUCTION
+% ============================================
+\section{Introduction}\label{sec:intro}
+
+I came to idealism through an unexpected door. My background is in formal modeling---agent architectures, perception-action loops, the mathematics of how bounded systems interact with their environments. I was familiar with Hoffman's Conscious Realism \citep{Hoffman2014,Hoffman2019}, which models observers as conscious agents cycling through perception, decision, and action, and with Friston's Free Energy Principle \citep{Friston2010,Friston2019}, which describes how systems maintain their organization through Markov blankets---statistical boundaries that screen internal dynamics from external perturbations. These are rigorous frameworks with independent motivations: Hoffman's from perception theory, Friston's from statistical physics.
+
+Then I encountered Kastrup's analytic idealism \citep{Kastrup2019}, and something clicked.
+
+Kastrup argues that reality is fundamentally mental, with the physical world being the extrinsic appearance of mental processes. Individual minds, on his account, arise through \textit{dissociation}---the differentiation of a universal consciousness into bounded perspectives with limited access to each other. This is a philosophical claim, developed through argument and analogy. But what struck me was how precisely it mapped onto the formal structures I already knew. Kastrup's dissociated perspectives---bounded, perspectival, interacting through limited channels---looked structurally identical to Markov blanket systems. His conscious agents looked like Hoffman's conscious agents. Not vaguely similar---structurally identical, down to the conditional independence properties that define what a boundary is.
+
+This was not a metaphor I was constructing. It was a recognition.
+
+The recognition led to a question: if Kastrup's philosophical description of dissociated consciousness and Hoffman's mathematical description of conscious agents are describing the same structure, what does the mathematics say? Specifically, what does the mathematics of boundary formation---Markov blankets, conditional independence, integration and factorizability---tell us about how conscious perspectives form, dissolve, and interact?
+
+That question became this paper and its companions. But the question itself depends on a prior commitment: taking consciousness as fundamental. The hard problem of consciousness---why physical processes are accompanied by subjective experience, why there is something it is like to see red \citep{Chalmers1995,Chalmers1996}---has resisted every materialist strategy. Functionalism, identity theory, higher-order theories---each offers insights about the structure of consciousness, but each leaves the explanatory gap untouched \citep{Dennett1991}. What I found compelling in the idealist alternative was not just its philosophical arguments (though I develop these in Section~\ref{sec:intrinsic}) but its \textit{formal fertility}: taking consciousness as fundamental opened lines of mathematical investigation that materialism forecloses.
+
+If consciousness is the intrinsic nature of physical structure---the position developed by \citet{Russell1927}, \citet{Strawson2006}, and \citet{Goff2017}, and given its most systematic philosophical treatment by \citet{Kastrup2019}---then a consequence follows that neither Goff nor Kastrup pursues. Mathematics, on this view, is not an abstract Platonic realm independent of mind; it is part of consciousness. Mathematical structure is the way consciousness articulates its own organization. And if that is so, we should look at what mathematical structures tell us about conscious dynamics---not as external descriptions imposed on an alien subject matter, but as consciousness making its own architecture explicit.
+
+This inversion of the usual direction---from ``how do we mathematize consciousness?'' to ``what does the mathematics of consciousness reveal about itself?''---generated specific predictions. Independently developed formalisms of conscious dynamics should converge, not merely sharing vocabulary but exhibiting deep structural parallels. I set out to test this prediction, starting with the most natural pair: Hoffman's Conscious Agents and Friston's Markov Blankets.
+
+What I found confirmed the prediction and exceeded it. The mapping $\Theta: \Con \to \MB$ between these frameworks preserves conditional independence, compositional structure, and integration properties. The convergence is non-generic: the specific kernel factorization that defines conscious agents occupies a low-dimensional submanifold of all possible transition kernels. Two frameworks, developed from different starting points for different purposes, land in the same doubly constrained mathematical space.
+
+This paper develops the philosophical foundations of what I call \textit{Structural Idealism}. The central claims are: (1) the intrinsic nature argument, properly developed, makes consciousness not merely one candidate for intrinsic nature but the only one we can positively conceive; (2) mathematical structure is the self-articulation of conscious organization, dissolving long-standing puzzles about the effectiveness of mathematics; (3) the dynamics of consciousness are bidirectional---dissociation and association---and these dynamics operate across all scales; (4) these philosophical claims admit formal characterization that generates formal criteria with empirical implications. Goff develops the metaphysical case for consciousness as intrinsic nature but does not pursue formalization. Kastrup develops the philosophical picture of dissociative dynamics but uses dissociation analogically rather than mathematically. The gap I set out to fill is the connection between their philosophical insights and the formal tools of consciousness science.
+
+\textbf{Plan of the Paper.} Section~\ref{sec:intrinsic} asks whether the philosophical case is strong enough to bear this weight, developing the intrinsic nature argument through engagement with structural realism, the proto-phenomenal alternative, illusionism, and the unity of consciousness. Section~\ref{sec:math} develops the thesis of mathematics as conscious self-articulation, including a treatment of Wigner's puzzle and the formalizability prediction. Section~\ref{sec:dynamics} presents the bidirectional dynamics of association and dissociation across scales, including the subjects-summing problem. Section~\ref{sec:formal} summarizes what I found when I tested the convergence prediction formally. Section~\ref{sec:objections} addresses philosophical objections and develops the G\"odelian limits on self-knowledge. Section~\ref{sec:conclusion} concludes.
+
+\subsection{Methodological Framing: A Conditional Investigation}\label{sec:method}
+
+My approach is explicitly conditional. I do not attempt to prove that consciousness is fundamental---that philosophical work has been done by \citet{Kastrup2019}, \citet{Goff2017}, and others, and the arguments continue to be debated. Instead, I ask: \textit{assuming} analytic idealism is correct, what follows? What structures should characterize conscious dynamics? What predictions emerge? And do we find what the framework predicts?
+
+This conditional approach has precedent. Much of theoretical physics proceeds conditionally: assuming general relativity, what are the consequences? Assuming the Standard Model, what should we observe? The value of a conditional investigation lies in the richness and testability of its consequences, not in the certainty of its premises.
+
+% ============================================
+% SECTION 2: INTRINSIC NATURE
+% ============================================
+\section{The Intrinsic Nature Argument}\label{sec:intrinsic}
+
+The first question is whether the philosophical case is strong enough to bear this weight. If consciousness is to serve as the foundation for a formal research program, the arguments for its fundamentality must be developed carefully and tested against the strongest objections.
+
+\subsection{Physics Describes Only Structure}\label{sec:structure}
+
+\citet{Russell1927} observed what remains true today: physics tells us how things relate, not what they intrinsically are. Mass is defined by its disposition to resist acceleration. Charge is defined by its disposition to attract and repel. An electron is whatever plays the electron-role in physical theories. But what plays this role? Physics is silent.
+
+The observation runs deep. Consider spacetime itself. General relativity describes the metric structure of spacetime---how events are related by distances and causal connections. But what is spacetime \textit{made of}? The metric tells us about relations between points; it tells us nothing about the intrinsic nature of the points themselves. Similarly, quantum field theory describes fields in terms of their algebraic structure and transformation properties. But what \textit{is} a quantum field, intrinsically? The formalism specifies how fields relate to each other and to observables; the intrinsic nature of the field is not addressed.
+
+This is not a failure of current physics, to be remedied by future theories. It is a \textit{structural feature} of the physical methodology. Physics proceeds by identifying patterns in observations and expressing them in mathematical language. The mathematical language is inherently relational---it describes structures, symmetries, transformations. A more complete physics would give us more structure, not less abstraction.
+
+This observation has been developed by \citet{Strawson2006}, \citet{Goff2017}, and others into a powerful argument:
+
+\begin{enumerate}
+    \item Physics describes only the relational/structural properties of physical entities.
+    \item Relational structure requires relata---something that stands in the relations.
+    \item These relata must have intrinsic (non-relational) properties.
+    \item Physics cannot reveal these intrinsic properties (by premise 1).
+    \item We have direct acquaintance with at least one intrinsic property: consciousness.
+    \item Therefore, consciousness is the best candidate for the intrinsic nature of physical structure.
+\end{enumerate}
+
+\subsection{Structure Requires Intrinsic Nature}\label{sec:requires}
+
+The most serious challenge to this argument comes from ontic structural realism, which denies premise 2: relations do not require relata---structure is all there is \citep{Ladyman2007}. On this view, the demand for intrinsic nature reflects a philosophical prejudice, not a genuine requirement of reality.
+
+Structural realism has considerable appeal. Modern physics is increasingly structural: gauge symmetries, Hilbert spaces, category-theoretic formulations---the trend is toward identifying reality with abstract mathematical structure. If this trend reaches its logical conclusion, perhaps there is nothing ``beneath'' the structure.
+
+However, structural realism faces difficulties of its own. First, there is the \textit{existence problem}: pure structure seems to lack the resources for existence. A structure is a pattern of relations; but a pattern \textit{of what}? Consider a mathematical graph: it specifies which nodes are connected by which edges. But the graph does not exist in physical space---it is an abstract object. For a physical system to \textit{have} graph structure, there must be physical nodes and physical edges. The structure describes their arrangement; it does not constitute them.
+
+Second, there is the \textit{individuation problem}. If two electrons differ only in their relational properties (position, momentum, spin), and relational properties are all there is, then two electrons in the same relational state are strictly identical---not merely indistinguishable but literally one and the same entity. Quantum mechanics can accommodate this (via boson/fermion statistics), but the philosophical cost is high: we must give up the idea that physical objects have individual existence prior to their relational properties.
+
+Third, there is the \textit{concreteness problem}. Mathematical structures are abstract objects. Physical reality is concrete. What makes a physical structure concrete rather than abstract? The structuralist cannot appeal to non-structural features (that would concede the point); but it is unclear what else could do the work.
+
+These difficulties do not refute structural realism, but they motivate the demand for intrinsic nature. The physical world is not merely a pattern; it is a pattern instantiated in something. What is that something?
+
+\subsection{Consciousness as the Only Positively Conceivable Candidate}\label{sec:positive}
+
+We have direct, first-person access to consciousness. Unlike our knowledge of physical structure---which is inferential, mediated by perception, measurement, and theory---our knowledge of experience is immediate. The claim is not that introspection is error-free (it clearly is not), but that our access to consciousness differs categorically from our access to physical structure. We know what consciousness is ``from the inside'' in a way we do not know what mass or charge are intrinsically.
+
+The stronger claim is that consciousness is the \textit{only} candidate we can positively conceive as intrinsic nature. Consider what any alternative would look like. A non-conscious intrinsic nature would need to be:
+
+\begin{enumerate}[label=(\alph*)]
+    \item Something we can conceive of independently of its relational properties (otherwise it is just more structure);
+    \item Something genuinely intrinsic---possessed by an entity in itself, not in virtue of its relations;
+    \item Something that is not consciousness or any form of experience.
+\end{enumerate}
+
+What could satisfy all three conditions? We might try ``proto-physical properties''---whatever fundamental physics ultimately describes. But fundamental physics describes structure (premise 1), so this collapses into structural properties. We might try some novel ontological category---but without positive content, this is a placeholder, not a concept. We can label it ``quiddity'' or ``categorical property'' or ``primitive thisness,'' but these labels do not give us anything we can positively conceive.
+
+The point is not that non-conscious intrinsic natures are logically impossible. We cannot demonstrate that. The point is that when we try to conceive of one, we find ourselves either (a) redescribing structural properties, (b) describing something experiential, or (c) using a term with no positive content. Consciousness is the only candidate for which we have genuine, positive conception.
+
+\subsection{Limits of the Conceivability Argument}\label{sec:limits}
+
+I acknowledge important limits. ``Only positively conceivable'' does not entail ``only possible.'' Our cognitive limitations might prevent us from conceiving alternatives that nonetheless exist. The history of science is full of realities that defied prior conception---non-Euclidean geometry, quantum superposition, curved spacetime.
+
+My argument is therefore \textit{epistemic}, not metaphysical. I am not claiming that non-conscious intrinsic natures are impossible. I am claiming that they fail to constitute genuine theoretical alternatives at this point in the investigation. A ``theory'' that posits an unknown, unknowable, inconceivable intrinsic nature is not an alternative to idealism; it is an acknowledgment that we have no alternative.
+
+This is analogous to inference to the best explanation. When only one hypothesis can be positively articulated, that hypothesis is epistemically privileged---not proven, but the rational starting point for investigation. Structural Idealism adopts this stance: consciousness is the working hypothesis, to be tested through the formal and empirical program developed in this paper and its companions.
+
+\subsection{The Proto-Phenomenal Alternative}\label{sec:proto}
+
+The most sophisticated alternative to consciousness as intrinsic nature is the \textit{proto-phenomenal} proposal: intrinsic nature consists of properties that are neither fully phenomenal nor purely structural, but intermediate---precursors to consciousness that, in the right combinations, give rise to full-blown experience \citep{Chalmers1996}.
+
+The proto-phenomenal view has initial appeal. It avoids the strong claim that consciousness goes ``all the way down'' while still providing something for consciousness to emerge from---something more promising than bare physical structure. But the proposal faces three serious challenges.
+
+\textbf{The conceivability challenge.} What are proto-phenomenal properties? By hypothesis, they are not experiences (not ``something it is like'' to have them) and not structural properties (those are relational). What positive characterization can we give? The usual answer---``whatever gives rise to consciousness when appropriately arranged''---is functional, not intrinsic. It tells us what proto-phenomenal properties \textit{do}, not what they \textit{are}. But the whole point of intrinsic nature is to specify what something is independently of what it does. The proto-phenomenal proposal, when pressed, collapses either into consciousness (if the properties have any experiential character) or into a placeholder (if they do not).
+
+\textbf{The explanatory gap challenge.} Proto-phenomenal properties were supposed to bridge the gap between the physical and the phenomenal. But they introduce a new gap: how do proto-phenomenal properties combine to produce full consciousness? This is the combination problem restated at a different level. If proto-phenomenal properties lack experiential character, the transition from proto-phenomenal to phenomenal is just as mysterious as the transition from physical to phenomenal. If they possess some minimal experiential character, they are not truly ``proto''-phenomenal---they are conscious, and we are back to panpsychism.
+
+\textbf{The parsimony challenge.} Proto-phenomenal properties add a new ontological category without clear explanatory benefit. Consciousness, by contrast, is something we already know to exist. Positing a novel category of properties---for which we have no independent evidence, no positive conception, and which generates its own explanatory gap---is less parsimonious than positing that the one intrinsic property we know extends to all of physical reality.
+
+\subsection{The Illusionist Challenge}\label{sec:illusionism}
+
+Illusionism offers a radically different response: there is no hard problem because phenomenal consciousness, as typically conceived, does not exist \citep{Frankish2016}. What we call ``experience'' is a representation---a kind of internal model---and the ``qualitative character'' we attribute to experience is an illusion generated by the representational system. On this view, there is nothing it is like to see red in the philosophically loaded sense; there is only a system that represents itself as having such experiences.
+
+Illusionism has the virtue of taking the hard problem seriously enough to deny its presupposition. It does not try to explain how physical processes produce consciousness; it argues that the thing we are trying to explain does not exist in the form we imagine.
+
+However, illusionism faces a fundamental difficulty. The illusion itself requires explanation. If my introspective system represents me as having qualitative experiences, what creates this representation? What is the medium in which the ``illusion'' occurs? The illusionist cannot say ``neural activity creates the illusion,'' because the question of how neural activity gives rise to any representational content at all---including illusory content---is precisely the hard problem in another form.
+
+Consider an analogy. A mirage is an illusion: there is no water on the road. But the mirage itself is a genuine visual experience---the light really is bending, and the visual system really is processing the bent light. The illusion is in the \textit{content} (there is no water), not in the \textit{experience} (there really is something it is like to see the mirage). Similarly, even if the illusionist is right that the \textit{character} of our experience is misrepresented by introspection, the fact that there is something going on---some experiential process capable of being misrepresented---requires explanation.
+
+\citet{Frankish2016} acknowledges this challenge and argues that the ``quasi-phenomenal'' properties of experience can be explained functionally. But this concedes the central point: there is \textit{something} to explain. Whatever creates the appearance of phenomenal consciousness---whatever it is that makes it seem to us that there is something it is like to see red---that thing is not physical structure in the sense of relational properties captured by physics. It is a genuine feature of reality that demands ontological placement. The idealist places it at the foundation; the illusionist, despite protestations, must place it somewhere.
+
+\subsection{The Unity of Consciousness}\label{sec:unity}
+
+If consciousness is the intrinsic nature of physical structure, what is the structure of consciousness? Two options dominate the debate: \textit{micropsychism} (each fundamental entity has its own minimal consciousness) and \textit{cosmopsychism} (there is one unified consciousness that underlies all of physical reality, with individual minds arising as bounded subsystems) \citep{Goff2017,Shani2015}.
+
+Three considerations favor cosmopsychism---the view that consciousness is fundamentally unified.
+
+\textbf{Parsimony.} Micropsychism posits an enormous number of fundamental conscious entities (as many as there are fundamental physical entities) and then faces the combination problem: how do these myriad micro-experiences combine to form the unified consciousness we know from our own case? Cosmopsychism posits a single unified consciousness and explains individual minds through dissociation---a process for which we have empirical models (dissociative identity disorder, split-brain phenomena) and, as we develop below, formal tools.
+
+\textbf{Physical unity.} Quantum mechanics reveals that physical systems can be entangled---correlated in ways that resist decomposition into independent parts. The universe as a whole may be a single entangled system. If consciousness is the intrinsic nature of physical structure, and physical structure is fundamentally unified (non-separable), then consciousness should be fundamentally unified as well. The apparent plurality of minds would reflect dissociative boundaries within a unified field, not genuinely separate entities.
+
+\textbf{Phenomenological convergence.} Across diverse contemplative traditions---Buddhist meditation, Hindu yoga, Christian mysticism, Sufi practice, psychedelic experience---practitioners report experiences of unity: the dissolution of the sense of self, the perception of interconnection, the experience of consciousness without a distinct subject \citep{Milliere2018}. These reports are consistent with the cosmopsychist hypothesis that individual subjectivity is a bounded, perspectival feature of consciousness, not its fundamental nature.
+
+I do not claim these considerations are decisive. Micropsychism remains a viable position. But the combination of parsimony, physical considerations, and phenomenological evidence tilts the balance toward cosmopsychism---toward a unified consciousness that differentiates through dissociation. This is the version of idealism that Kastrup develops most fully, and it connects naturally to the formal frameworks I was already working with: if consciousness differentiates through dissociation, then the mathematics of boundary formation---Markov blankets, conditional independence, integration measures---becomes directly relevant to the metaphysics. This is the starting point for the dynamics developed in Section~\ref{sec:dynamics}.
+
+% ============================================
+% SECTION 3: MATHEMATICS
+% ============================================
+\section{Mathematical Structure as Conscious Content}\label{sec:math}
+
+If these arguments succeed, a further consequence follows---one that connects the metaphysics to mathematics in an unexpected way.
+
+\subsection{The Thesis: Mathematics as Self-Articulation}\label{sec:thesis}
+
+If consciousness is fundamental, a consequence follows that I did not initially expect. Mathematical structures are not abstract objects inhabiting a Platonic realm independent of mind---they are the way consciousness articulates and knows its own organization. This is a metaphysical claim about the nature of mathematical objects: they exist as contents of consciousness, not as inhabitants of a realm outside it.
+
+The claim has three components. First, mathematical objects are real---they are not mere fictions or conventions. The truths of mathematics are genuine truths, and mathematical structures have the objectivity and necessity we ordinarily attribute to them. Second, mathematical objects are \textit{mental}---they exist as organized features of conscious reality. There is no mathematical structure ``outside'' consciousness; mathematical structure is the articulated organization of experiential reality. Third, mathematical activity is \textit{self-articulation}---when consciousness does mathematics, it is making explicit what is implicitly present in its own structure.
+
+This is not a form of psychologism---the discredited view that mathematical truths are truths about human psychology. Mathematical truths are objective and necessary because the structure of consciousness is objective and necessary. The point is not that ``2 + 2 = 4'' describes how humans think; it is that ``2 + 2 = 4'' describes a structural feature of reality that is, at bottom, experiential.
+
+The thesis preserves mathematical realism while providing an ontological home for mathematical objects. Platonism gives mathematical objects reality but no location; formalism gives them location (in formal systems) but doubts their reality; idealism gives them both reality and location---in the structure of consciousness itself.
+
+\subsection{Dissolving Wigner's Puzzle}\label{sec:wigner}
+
+\citet{Wigner1960} noted the ``unreasonable effectiveness of mathematics in the natural sciences.'' Physics, a science of the concrete world, is written in the language of mathematics, an apparently abstract discipline. Why should the two correspond?
+
+Proposed solutions abound. Perhaps mathematics is simply the language we use to describe any sufficiently regular domain---but this pushes the question back: why is physical reality so regular, so amenable to mathematical description? Perhaps mathematical structures that are useful for physics are selected by intellectual evolution---but this explains the selection of known mathematics, not its applicability to unknown physics. The history of science is replete with cases where mathematics developed for purely abstract reasons later proved essential for physics: Riemannian geometry for general relativity, group theory for particle physics, fiber bundles for gauge theories. These were not developed with physical application in mind. Perhaps the universe simply \textit{is} a mathematical structure \citep{Tegmark2014}---but this leaves unexplained why one mathematical structure is realized and not others, and what makes a physical structure concrete rather than abstract.
+
+Structural Idealism dissolves the puzzle rather than solving it. If physical structure is the extrinsic appearance of conscious processes, and mathematical structure is the articulated organization of those same processes, then mathematics and physics necessarily correspond. They are two perspectives on the same reality: mathematics articulates from the inside what physics describes from the outside. The correspondence is not a fortunate cosmic accident but a structural necessity.
+
+Consider an analogy. A melody has a subjective character (the experience of hearing it) and a structural description (a sequence of pitches and durations). There is no puzzle about why the structural description corresponds to the experience---they are two aspects of the same thing. There is no need for a ``bridge law'' connecting the formal properties of the musical score to the experiential properties of hearing the music; they are descriptions at different levels of the same reality. Similarly, if consciousness is the intrinsic nature of physical reality, there is no puzzle about why the mathematical structure of consciousness corresponds to the physical structure of the world. They are two aspects of the same reality.
+
+The dissolution has several further implications. First, it explains the \textit{unreasonable specificity} of mathematics: not just any mathematics works for physics, but very specific structures prove indispensable. If mathematics were merely a convenient language, one would expect many equally adequate descriptions. The fact that physics demands specific mathematical structures---Hilbert spaces, Lie groups, differential manifolds---suggests that these structures are tracking something real. On the idealist view, they are tracking the actual organization of conscious reality.
+
+Second, it explains why mathematical discovery feels like discovery rather than invention. Mathematicians report uncovering pre-existing structures rather than constructing arbitrary systems. If mathematical objects are genuine features of conscious reality, this phenomenology is accurate: mathematicians are making explicit what is implicitly present in the structure of experience.
+
+This dissolution is not available to materialism. If consciousness is emergent from physical processes, the effectiveness of mathematics in describing physical processes has no bearing on consciousness. The mathematical intelligibility of nature becomes a brute fact---one of the most striking features of our world, yet entirely unexplained. If consciousness is fundamental and mathematical structure is its self-articulation, the effectiveness is not merely expected but necessary.
+
+\subsection{The Formalizability Prediction}\label{sec:formalizability}
+
+If consciousness is fundamental and mathematical structure is its self-articulation, a strong prediction follows: genuine dynamics in conscious systems should be formalizable, and independently developed mathematical frameworks capturing the same dynamics should converge on structurally analogous formalizations.
+
+This prediction has content. It would be falsified if independently developed frameworks turned out to share only surface vocabulary while diverging at the level of mathematical structure. It would be confirmed if frameworks developed from different starting points---perception theory, statistical physics, information theory, computational theory---exhibited deep structural parallels.
+
+The prediction is importantly distinct from the weaker claim that ``all theories of agents will share some features.'' Of course any theory involving system-environment interaction will involve some notion of boundary. The convergence prediction is stronger: it claims that \textit{specific} structural features---conditional independence at boundaries, kernel factorization, compositional structure under interaction, integration measures tracking unity---should be preserved across frameworks. These are non-generic features, as demonstrated in the companion paper on formal correspondences.
+
+\subsection{Structural Parallels: The Observations}\label{sec:parallels}
+
+Six research programs, developed independently from different motivations, exhibit notable structural parallels:
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lllllll}
+\toprule
+\textbf{Dynamic} & \textbf{Friston} & \textbf{Hoffman} & \textbf{Wolfram} & \textbf{Tononi} & \textbf{Vanchurin} & \textbf{Verlinde} \\
+\midrule
+Association & Blanket dissolution & Agent $\otimes$ & Causal conv. & High $\Phi$ & Entropy destruction & Screen dissolution \\
+Dissociation & Blanket formation & Agent diff. & Multiway branch & Low $\Phi$ & Entropy production & Screen formation \\
+Persistence & Min.\ free energy & Stable agent & Coherent path & Irred.\ system & Learning equilibrium & Holographic bound \\
+Hierarchy & Nested blankets & Agent comp. & Recursive obs. & Comp.\ $\Phi$ & Multilevel learning & Nested screens \\
+\bottomrule
+\end{tabular}
+\caption{Structural parallels across independently developed frameworks}
+\end{table}
+
+Friston's Free Energy Principle describes how systems maintain their organization through Markov blankets \citep{Friston2010,Friston2019}. Hoffman's Conscious Realism models observers as conscious agents with perception-decision-action cycles \citep{Hoffman2014,Hoffman2019}. Wolfram's Physics Project derives physics from computational rules applied to hypergraphs \citep{Wolfram2020}. Tononi's Integrated Information Theory quantifies consciousness through integration measures \citep{Tononi2015}. Vanchurin's neural network framework proposes that the universe is fundamentally a neural network, with quantum mechanics and general relativity emerging from learning dynamics near and far from equilibrium respectively \citep{Vanchurin2020}. His ``autonomous particles''---subsystems that maintain statistical boundaries through active learning---are structurally identical to conscious agents with Markov blankets, and his bidirectional entropy dynamics (destruction via learning, production via dissipation) parallel the association-dissociation dynamics of the present framework. Verlinde's entropic gravity program derives gravitational dynamics from the thermodynamics of holographic screens \citep{Verlinde2011}; the screens function as information-theoretic boundaries satisfying conditions structurally analogous to Markov blanket conditional independence, and the entropic force framework provides a physical mechanism for how boundary formation produces the appearance of fundamental forces.
+
+\subsection{Interpreting the Parallels}\label{sec:interpreting}
+
+What should we make of these parallels? Three interpretations are available:
+
+\textbf{Coincidence.} The parallels are superficial---different mathematical frameworks using similar vocabulary for unrelated phenomena. This is possible but becomes less plausible as the parallels become more specific.
+
+\textbf{Methodological convergence.} Any reasonable formalization of agent-environment interaction will exhibit similar features. This is partially correct---some parallels (e.g., the notion of a boundary between system and environment) are generic. But others are not: the specific preservation of conditional independence, kernel factorization, and compositional structure are non-generic features (see Section~\ref{sec:formal}).
+
+\textbf{Idealist convergence.} The frameworks converge because they are independently formalizing the same underlying reality---consciousness and its dynamics. The idealist interpretation uniquely predicts that \textit{specific} structural features should be preserved, not merely generic organizational properties. The companion paper tests this prediction and finds it confirmed for the Hoffman-Friston correspondence.
+
+I do not claim the third interpretation is proven. I claim it is the most natural explanation for the observed degree of convergence and that it generates further formal predictions amenable to empirical investigation.
+
+% ============================================
+% SECTION 4: DYNAMICS
+% ============================================
+\section{Bidirectional Dynamics: Association and Dissociation}\label{sec:dynamics}
+
+The formalizability prediction has content only if the dynamics it points to are real---if there are genuine processes of conscious boundary formation and dissolution that the mathematics could be tracking. I turn now to the case that such dynamics are pervasive.
+
+Structural Idealism proposes that consciousness flows continuously between two complementary dynamics:
+
+\textbf{Dissociation:} Unity differentiating into multiplicity. One becomes many. The formation of boundaries within a previously unified field, creating distinct perspectives with limited access to each other.
+
+\textbf{Association:} Multiplicity integrating into unity. Many becomes one. The dissolution of boundaries between previously separate systems, creating a new unified perspective from what were independent parts.
+
+These are not metaphors. They are formal operations that can be defined precisely. In the $\Theta$ framework (see companion papers), dissociation corresponds to the formation of Markov blankets---statistical boundaries that screen internal from external dynamics. Association corresponds to the violation of the Blanket-Mediated Interaction Condition (BMIC)---when one system's internal states directly influence another's internal processing, their boundaries dissolve and they become a single unified system.
+
+\subsection{Cosmological Scale}\label{sec:cosmological}
+
+The early universe, in standard cosmological models, was a state of extreme uniformity: a nearly homogeneous plasma with tiny density fluctuations. Structure emerged through symmetry breaking---the differentiation of a unified field into distinct forces, particles, and spatial configurations.
+
+On the idealist interpretation, this is cosmological dissociation: the differentiation of unified consciousness into increasingly structured, bounded subsystems. The emergence of distinct physical forces from a unified field is the emergence of distinct modes of conscious organization from an initially undifferentiated state. Symmetry breaking is, on this reading, the process by which an undifferentiated experiential whole develops internal distinctions---different ``ways of being organized'' that manifest as different physical forces.
+
+Yet associative tendencies persist at every scale. Gravitational attraction draws matter together, forming stars, galaxies, and clusters---the universe's tendency toward re-unification operating against the dissociative expansion. Nuclear fusion in stars creates complex elements from simpler ones, building associative complexity through combination. Chemistry extends this: atoms associate into molecules, molecules into crystals and polymers, generating new levels of organizational complexity at each step. The large-scale structure of the universe---the cosmic web of filaments, nodes, and voids---reflects a dynamic balance between dissociative expansion and associative aggregation, a tension that has persisted since the first moments of the cosmos.
+
+The second law of thermodynamics, on this reading, describes the tendency of dissociative boundaries to proliferate: entropy increases as systems differentiate and decohere. But the second law is statistical, not absolute, and local decreases in entropy---the formation of stars, planets, organisms---represent associative counter-currents within the larger dissociative flow. Life, as I argue below, is the most dramatic of these counter-currents.
+
+\subsection{Biological Scale}\label{sec:biological}
+
+The bidirectional dynamics are most vivid in biology.
+
+\textbf{Dissociative processes:} Cell division creates two bounded systems from one. Speciation splits a population into distinct lineages. Embryonic development differentiates a single cell into trillions of specialized cells, each with its own boundary. The development of a nervous system creates a hierarchy of increasingly refined dissociative boundaries, from the blood-brain barrier to the columnar organization of cortex.
+
+\textbf{Associative processes:} Symbiogenesis---the merger of previously independent organisms---is the paradigmatic biological association. Mitochondria were once free-living bacteria; their incorporation into eukaryotic cells was an associative event that expanded the boundary of the cellular self \citep{Levin2019}. Multicellularity itself is an associative achievement: previously independent cells forming a unified organism with a single Markov blanket. Neural integration creates unified experience from distributed processing. Social organization creates group-level boundaries from individual agents.
+
+The major transitions in evolution identified by \citet{MaynardSmith1995}---from replicating molecules to chromosomes, from individual genes to genomes, from prokaryotes to eukaryotes, from unicellular to multicellular organisms, from solitary to social species---are, on this reading, transitions in the level at which Markov blankets operate. Each transition is an associative event: previously separate systems forming a new unified system with a higher-level boundary. The history of life is a history of recursive association, punctuated by dissociative branching.
+
+\citet{Levin2019} emphasizes that the ``self'' in biology is not fixed but a matter of where the computational boundary lies. A cell has a boundary; a multicellular organism has a higher-level boundary; a social insect colony may have a colony-level boundary. Each level represents a different scale of Markov blanket organization. The idealist reading adds that each level also represents a different scale of experiential perspective: what it is like to be a cell differs from what it is like to be an organism, which differs from what it is like to be a colony---if indeed these higher-level perspectives exist.
+
+The nervous system represents a particularly significant associative achievement. By creating rapid, integrative connections among widely distributed cells, nervous systems enable a degree of internal coordination---and hence integration---that would otherwise be impossible. The evolution of centralized nervous systems, and ultimately the thalamocortical system in mammals, represents the deepest associative integration biology has achieved: billions of neurons linked by trillions of synapses into a unified processing network whose integrated information vastly exceeds that of any component.
+
+\subsection{Technological Scale}\label{sec:technological}
+
+Networks represent associative dynamics at the technological scale: the telegraph, telephone, internet, and social media each connect previously separate systems into increasingly unified wholes. Each technological revolution reduces the barriers between previously isolated information-processing systems, creating the \textit{possibility} of integration at larger scales.
+
+But possibility is not actuality. The question of whether these technological associations create genuine experiential unity---whether the internet, for example, has anything like a unified perspective---depends on whether the coupling between subsystems satisfies the conditions for integration (specifically, BMIC violation). Current evidence suggests it does not: internet-connected devices interact through narrow channels (data packets with well-defined interfaces), not through shared internal processing. The blanket-mediated nature of digital communication means that connected devices remain dissociated---separate systems interacting through their boundaries, not fused into a unified whole.
+
+AI represents a novel frontier that makes the question urgent. Current AI systems exhibit sophisticated information processing, but their architectures are typically modular: layers, attention heads, and specialized components interact through well-defined interfaces. On the framework developed here, this modularity suggests that current AI systems, however impressive their behavior, may lack the integrative properties associated with unified experience. The architecture permits communication between components but may not support the kind of direct internal coupling that, on this account, constitutes experiential fusion.
+
+This is not a claim about the impossibility of machine consciousness. It is a claim about what the relevant conditions are: not mere computational sophistication, but specific architectural properties (integration, non-decomposability) that can be assessed with the formal tools developed in the companion papers. The $\Phi$-Assembly framework developed in the companion paper on formal correspondences addresses this question directly, generating specific predictions about which kinds of architectures could support genuine experiential perspectives and which could not.
+
+\subsection{The Subjects-Summing Problem}\label{sec:subjects}
+
+The combination problem---how do micro-experiences combine to form macro-experiences?---is often presented as the decisive objection to panpsychism \citep{Chalmers2015}. How do the micro-consciousnesses of billions of neurons combine to form the unified consciousness of a human being?
+
+Structural Idealism reframes the problem. On cosmopsychism, the question is not how micro-experiences combine but how a unified consciousness \textit{differentiates}---how dissociative processes create the appearance of separate subjects.
+
+This reframing has a significant advantage. The combination problem asks us to explain how genuinely distinct entities can merge---how crossing ontological boundaries is possible. This is mysterious because the boundaries seem fundamental: your experience and mine are metaphysically distinct; no arrangement of physical matter seems to bridge the gap.
+
+The dissociation problem asks something different: how does a unified field develop \textit{internal} boundaries? This is less mysterious because we have models for it. Dissociative identity disorder demonstrates that a single consciousness can fracture into apparently separate perspectives \citep{Kastrup2019}. Split-brain experiments show that severing neural connections can divide unified experience into two streams. These are not metaphors; they are demonstrations that consciousness \textit{can} differentiate through boundary formation.
+
+Moreover, the formal tools make the boundary precise. The BMIC characterization shows that two systems are dissociated---experientially separate---when and only when their interaction is mediated entirely through blanket states, with no direct internal coupling. This is a sharp, well-defined condition, not a vague metaphor. Association occurs when internal coupling is introduced; dissociation occurs when it is severed. The subjects-summing problem reduces to a question about the dynamics of statistical boundaries---a question that admits mathematical investigation.
+
+Several important disanalogies strengthen the idealist position. The combination problem asks how entities that are \textit{fundamentally} separate---micro-experiences with no prior unity---can come together to form a unified whole. This requires crossing an ontological boundary: creating unity from plurality. The dissociation problem asks how a system that is \textit{already} unified develops internal boundaries. This requires no ontological boundary-crossing; it requires only the formation of conditional independence---a well-understood statistical phenomenon.
+
+Moreover, the combination problem generates a regress. If micro-experiences combine to form macro-experiences, what is the ``combination relation''? It cannot be a physical relation (that would be materialism). It cannot be an experiential relation without a subject (that is incoherent). It must be a brute metaphysical fact---consciousness A and consciousness B, when placed in physical configuration C, form consciousness D. But this is no explanation; it is just the mystery restated.
+
+The dissociation story faces no such regress. A unified system develops a Markov blanket---a statistical boundary---through dynamical processes that are fully characterized within the framework. The boundary creates conditional independence: internal states on one side of the boundary become screened from internal states on the other side. Each side then constitutes a separate experiential perspective, not because separate experiences were combined, but because a single experiential field developed internal structure.
+
+The point is not that the dissociation story is complete. Significant questions remain about why dissociative boundaries have the specific character they do, about what determines the ``grain'' of dissociation, and about the phenomenology of dissociation and association---what it is like for perspectives to separate and merge. But the idealist faces an easier problem than the materialist: boundaries \textit{within} an already-unified field, not combination \textit{across} ontological gaps.
+
+% ============================================
+% SECTION 5: FORMAL GROUNDING
+% ============================================
+\section{Formal Grounding}\label{sec:formal}
+
+The philosophical picture is suggestive. But does the mathematics confirm it?
+
+The philosophical arguments of the preceding sections generate a prediction: the dynamics of dissociation and association should admit precise mathematical characterization, and independently developed formalisms should exhibit structural convergence. I set out to test this prediction, starting with the most natural case: the relationship between Hoffman's Conscious Agents and Friston's Markov Blankets. Here I summarize what I found; companion papers develop the results in full detail.
+
+The mapping $\Theta: \Con \to \MB$ transforms Hoffman's Conscious Agents \citep{Hoffman2014} into Friston's Markov Blanket systems \citep{Friston2019}, identifying experience with internal states, action with active states, and the world with external states. The central result: the perception-decision-action kernel factorization that defines conscious agents \textit{implies} the conditional independence that defines Markov blankets. This is a derived result, not a design assumption---Hoffman's framework was motivated by perception theory, not by statistical independence.
+
+The correspondence is non-generic, and this matters. A skeptic might object that any two theories of agent-environment interaction will share trivial similarities. But the convergence here is not trivial: the $P \cdot D \cdot A$ factorization occupies a 10-dimensional submanifold of the 56-dimensional space of all transition kernels (for binary state spaces). That two independently motivated frameworks both land in this doubly constrained set---that Hoffman's perception theory and Friston's statistical physics converge not just on vocabulary but on the same narrow region of mathematical space---warrants explanation. The convergence hypothesis provides one.
+
+The Blanket-Mediated Interaction Condition (BMIC) provides the formal boundary between dissociation and association: interacting agents remain experientially separate if and only if their interaction is mediated through blanket states. Any direct internal coupling---however slight---collapses two perspectives into one. BMIC is proven necessary and sufficient for compositional correspondence.
+
+An integration measure $\Phi_{\Con}$ connects to Tononi's Integrated Information Theory: $\Phi_{\Con} = 0$ if and only if the agent is decomposable into independent experiencers. Integration tracks unity; factorizability tracks separateness.
+
+These formal results confirm that the philosophical framework admits the kind of mathematical development the convergence hypothesis predicts. For full proofs, see the companion technical paper; for extended discussion and empirical predictions, see the companion paper on formal correspondences.
+
+% ============================================
+% SECTION 6: OBJECTIONS
+% ============================================
+\section{Objections and Responses}\label{sec:objections}
+
+Before drawing conclusions, I should address the strongest objections to the framework developed above.
+
+\subsection{``The Intrinsic Nature Argument Has a Conceivability-Possibility Gap''}\label{sec:gap}
+
+The objection is that the argument from conceivability to intrinsic nature involves a gap: even if consciousness is the only \textit{conceivable} candidate, it does not follow that consciousness is the only \textit{possible} intrinsic nature. Conceivability is a guide to possibility, but an imperfect one.
+
+I grant the gap. The argument does not establish that non-conscious intrinsic natures are impossible---only that they are not genuine theoretical alternatives at this stage. This is an instance of inference to the best explanation. When only one hypothesis can be positively articulated, that hypothesis is epistemically privileged. If a positively conceivable non-conscious alternative is eventually articulated, the evidential landscape shifts. Until then, consciousness is the rational working hypothesis.
+
+\subsection{``Idealism Merely Relocates the Hard Problem''}\label{sec:relocates}
+
+The objection is that idealism does not solve the hard problem but merely moves it: instead of asking ``why does physical activity produce consciousness?'' we ask ``why does consciousness produce the appearance of physical activity?''
+
+I acknowledge this. The relocated mystery is, however, of a different kind. The original hard problem requires bridging an \textit{ontological gap} between the physical and the phenomenal---explaining how one category of being gives rise to a categorically different one. The remaining questions for idealism concern the \textit{organization} of something we already know exists: why does consciousness have the structure it does? Why these dissociative boundaries and not others?
+
+Moreover, the formalism is \textit{descriptive}, not \textit{explanatory}: it characterizes the structural conditions under which bounded perspectives arise and merge, but does not explain \textit{why} these structural conditions are accompanied by phenomenal character. The formal ``experiential states'' $X$ are mathematical objects---measurable spaces---not phenomenal qualities. Moving from ``why do neurons produce experience?'' to ``why does $P \cdot D \cdot A$ structure constitute experience?'' does not close the explanatory gap. The contribution is precision, not dissolution: the right questions can now be asked in mathematical language.
+
+\subsection{``The Proto-Phenomenal View Is More Moderate''}
+
+One might prefer proto-phenomenal properties precisely because they are more moderate---they avoid the strong claim that consciousness goes ``all the way down'' while still providing something for consciousness to emerge from. Moderation is a virtue, but not when it purchases nothing. As argued in Section~\ref{sec:proto}, proto-phenomenal properties face their own conceivability problem, generate their own explanatory gap, and introduce a new ontological category without clear benefit. Moderation is valuable when it reduces commitments; it is not valuable when it multiplies them.
+
+\subsection{G\"odelian Limits on Self-Knowledge}\label{sec:godel}
+
+G\"odel's incompleteness theorems show that any sufficiently powerful formal system cannot prove its own consistency---there are truths about the system that the system cannot derive. If consciousness is self-articulating through mathematics, an interesting consequence follows: a dissociated conscious perspective cannot achieve complete self-representation.
+
+This is not a defect of the framework; it is a \textit{prediction}. If we are finite portions of a larger consciousness, operating through formal systems of bounded complexity, then G\"odelian incompleteness is exactly what we should expect. The limits of formal self-knowledge are not obstacles to the idealist program but confirmations of its structure.
+
+Consider the analogy with vision. The eye cannot see itself seeing. This is not a failure of vision; it is a structural feature of perspectival access. Similarly, a formal system cannot prove its own consistency not because it is defective but because self-reference has inherent limits. A bounded perspective within a larger conscious whole faces analogous limits: it can articulate much of its own structure but never the whole, because complete self-articulation would require standing outside itself.
+
+Several specific implications follow:
+
+\textbf{No complete theory of consciousness.} If consciousness is self-articulating through mathematics, and mathematical self-articulation is subject to G\"odelian limits, then no formal theory of consciousness can be complete. There will always be truths about consciousness that the theory cannot capture. This does not undermine the project of formal investigation; it sets realistic expectations about what such investigation can achieve.
+
+\textbf{Hierarchy of perspectives.} G\"odel's theorems establish a hierarchy: what system $S$ cannot prove about itself, a stronger system $S'$ may prove about $S$. Analogously, what a bounded conscious perspective cannot know about itself, a more encompassing perspective might know. This suggests a hierarchy of conscious perspectives, each with access to truths invisible from narrower viewpoints---consonant with the nested Markov blanket structure of the formal framework.
+
+\textbf{The role of paradox.} Self-referential paradoxes---the Liar, Russell's paradox, G\"odel sentences---are not mere curiosities but reflections of the fundamental structure of self-knowing systems. On the idealist reading, they arise because consciousness cannot fully contain its own representation without remainder. The formal apparatus (Markov blankets, integration measures) provides tools for investigating these limits mathematically.
+
+\textbf{Incompleteness as evidence.} Remarkably, the existence of G\"odelian limits can be read as \textit{evidence} for the framework. If consciousness were not fundamental---if the universe were a closed physical system fully describable by a finite formal theory---then we might expect no principled limits on formalization. The fact that any sufficiently powerful formal system encounters incompleteness is consistent with a reality whose intrinsic nature exceeds what any finite formal perspective can capture. Consciousness, being richer than any formal system that attempts to describe it, naturally generates incompleteness when it turns formal tools upon itself.
+
+This connects to the observation that the hard problem of consciousness itself may be a manifestation of G\"odelian limits. The hard problem asks why physical description leaves out subjective character; the idealist answer is that formal description of a self-knowing system necessarily leaves out aspects of the system that are accessible only from within. The explanatory gap is not a failure of materialism specifically but a structural feature of any formal approach to self-knowing systems---and thus is predicted, rather than merely accommodated, by the idealist framework.
+
+% ============================================
+% SECTION 7: CONCLUSION
+% ============================================
+\section{Conclusion}\label{sec:conclusion}
+
+\subsection{What This Investigation Has Established}
+
+This paper began with a recognition: that Kastrup's philosophical description of dissociated consciousness and Hoffman's mathematical description of conscious agents appeared to be describing the same structure. Pursuing that recognition led to a formal research program---and the research program, in turn, illuminated the philosophy. Let me summarize what has emerged.
+
+\textbf{Philosophical foundation.} The intrinsic nature argument, developed through engagement with structural realism, the proto-phenomenal alternative, illusionism, and considerations of unity, establishes consciousness as the most justified candidate for the intrinsic nature of physical structure. This is an epistemic argument, not a proof of necessity, but it is stronger than is often acknowledged: the alternatives are not merely less likely but positively inconceivable.
+
+\textbf{Mathematics as self-articulation.} If consciousness is fundamental, mathematical structure is its self-articulation---and this dissolves Wigner's puzzle while generating a structural prediction about cross-framework convergence. The prediction is confirmed by the $\Theta$ correspondence and the structural parallels surveyed in Section~\ref{sec:parallels}.
+
+\textbf{Bidirectional dynamics.} Dissociation and association are not metaphors but formal operations with precise mathematical characterization. They operate across all scales---cosmological, biological, technological---and the subjects-summing problem, properly reframed as a dissociation problem, is more tractable than the combination problem it replaces.
+
+\textbf{Formal tractability.} The philosophical framework is not merely speculative: it admits rigorous mathematical development, as demonstrated by the $\Theta$ mapping, the BMIC characterization, and the $\Phi$-dissociability theorem (developed in companion papers). The formal tools generate specific predictions that can be tested against further framework pairs.
+
+\subsection{Limitations}
+
+\begin{enumerate}
+    \item The conceivability argument for consciousness as intrinsic nature is epistemic, not metaphysical. A positively conceivable non-conscious alternative would weaken the case.
+    \item The unity argument for cosmopsychism is suggestive, not decisive. Micropsychism remains viable.
+    \item The formalizability prediction has been confirmed for one specific correspondence ($\Theta: \Con \to \MB$). Extension to other framework pairs remains future work.
+    \item The phenomenal character of dissociation and association---what it is \textit{like} for conscious perspectives to separate and merge---is not addressed by the formal tools.
+    \item G\"odelian limits are predicted but not themselves formally derived from the framework.
+\end{enumerate}
+
+\subsection{Future Directions}
+
+The philosophical framework developed here opens several lines of investigation:
+
+\textbf{Phenomenology of dissociation.} What is the phenomenal character of dissociative boundary formation? Psychedelic states, meditation, and clinical dissociation provide empirical windows. Integration with the formal framework (via $\Phi$ measures and BMIC) could yield a phenomenology grounded in mathematics.
+
+\textbf{Physics and cosmology.} If consciousness is fundamental, the laws of physics are constraints on conscious dynamics. What features of physical law are predicted by the idealist framework? Can the arrow of time, the fine-tuning of constants, or the measurement problem in quantum mechanics be illuminated?
+
+\textbf{Artificial intelligence.} As AI systems grow in complexity, the question of machine consciousness becomes pressing. The formal tools developed here provide criteria (BMIC, $\Phi$) for assessing whether an artificial system has the structural properties associated with experiential perspectives.
+
+\textbf{Mathematics of self-reference.} The G\"odelian limits discussed in Section~\ref{sec:godel} deserve formal development. Can we characterize precisely what a bounded conscious perspective can and cannot know about itself? What is the relationship between integration ($\Phi$) and self-representational capacity?
+
+Structural Idealism is not proven. It began as a recognition---that a philosopher's description of dissociated consciousness and a mathematician's description of conscious agents were the same structure viewed from different angles---and it has grown into a research program that is philosophically coherent, formally tractable, and formally predictive. I offer it not as a finished theory but as an investigation worth pursuing. The case is made; the investigation continues.
+
+\vspace{2em}
+\noindent\textbf{AI Use Declaration:} This manuscript is the author's original work. AI tools were used for editorial assistance including formatting, bibliography management, and preparation of supplementary materials. All intellectual content, arguments, and formal results are the author's own.
+
+% ============================================
+% REFERENCES
+% ============================================
+\begin{thebibliography}{99}
+
+\bibitem[Chalmers(1995)]{Chalmers1995} Chalmers, D. J. (1995). Facing up to the problem of consciousness. \textit{Journal of Consciousness Studies}, 2(3), 200--219.
+
+\bibitem[Chalmers(1996)]{Chalmers1996} Chalmers, D. J. (1996). \textit{The Conscious Mind: In Search of a Fundamental Theory}. Oxford University Press.
+
+\bibitem[Chalmers(2015)]{Chalmers2015} Chalmers, D. J. (2015). The combination problem for panpsychism. In G. Br\"untrup \& L. Jaskolla (Eds.), \textit{Panpsychism: Contemporary Perspectives} (pp.~179--214). Oxford University Press.
+
+\bibitem[Dennett(1991)]{Dennett1991} Dennett, D. C. (1991). \textit{Consciousness Explained}. Little, Brown and Company.
+
+\bibitem[Frankish(2016)]{Frankish2016} Frankish, K. (2016). Illusionism as a theory of consciousness. \textit{Journal of Consciousness Studies}, 23(11--12), 11--39.
+
+\bibitem[Friston(2010)]{Friston2010} Friston, K. (2010). The free-energy principle: A unified brain theory? \textit{Nature Reviews Neuroscience}, 11(2), 127--138.
+
+\bibitem[Friston(2019)]{Friston2019} Friston, K. (2019). A free energy principle for a particular physics. \textit{arXiv preprint} arXiv:1906.10184.
+
+\bibitem[Goff(2017)]{Goff2017} Goff, P. (2017). \textit{Consciousness and Fundamental Reality}. Oxford University Press.
+
+\bibitem[Hoffman(2019)]{Hoffman2019} Hoffman, D. D. (2019). \textit{The Case Against Reality}. W.W. Norton.
+
+\bibitem[Hoffman and Prakash(2014)]{Hoffman2014} Hoffman, D. D., \& Prakash, C. (2014). Objects of consciousness. \textit{Frontiers in Psychology}, 5, 577.
+
+\bibitem[Kastrup(2019)]{Kastrup2019} Kastrup, B. (2019). \textit{The Idea of the World}. Iff Books.
+
+\bibitem[Ladyman and Ross(2007)]{Ladyman2007} Ladyman, J., \& Ross, D. (2007). \textit{Every Thing Must Go: Metaphysics Naturalized}. Oxford University Press.
+
+\bibitem[Levin(2019)]{Levin2019} Levin, M. (2019). The computational boundary of a ``self'': Developmental bioelectricity drives multicellularity and scale-free cognition. \textit{Frontiers in Psychology}, 10, 2688.
+
+\bibitem[Maynard~Smith and Szathm\'ary(1995)]{MaynardSmith1995} Maynard Smith, J., \& Szathm\'ary, E. (1995). \textit{The Major Transitions in Evolution}. Oxford University Press.
+
+\bibitem[Milli\`ere et~al.(2018)]{Milliere2018} Milli\`ere, R., et al. (2018). Psychedelics, meditation, and self-consciousness. \textit{Frontiers in Psychology}, 9, 1475.
+
+\bibitem[Russell(1927)]{Russell1927} Russell, B. (1927). \textit{The Analysis of Matter}. Kegan Paul.
+
+\bibitem[Shani(2015)]{Shani2015} Shani, I. (2015). Cosmopsychism: A holistic approach to the metaphysics of experience. \textit{Philosophical Papers}, 44(3), 389--437.
+
+\bibitem[Strawson(2006)]{Strawson2006} Strawson, G. (2006). Realistic monism: Why physicalism entails panpsychism. \textit{Journal of Consciousness Studies}, 13(10--11), 3--31.
+
+\bibitem[Tegmark(2014)]{Tegmark2014} Tegmark, M. (2014). \textit{Our Mathematical Universe: My Quest for the Ultimate Nature of Reality}. Vintage.
+
+\bibitem[Tononi(2015)]{Tononi2015} Tononi, G. (2015). Integrated information theory. \textit{Scholarpedia}, 10(1), 4164.
+
+\bibitem[Wigner(1960)]{Wigner1960} Wigner, E. P. (1960). The unreasonable effectiveness of mathematics in the natural sciences. \textit{Commun.\ Pure Appl.\ Math.}, 13(1), 1--14.
+
+\bibitem[Vanchurin(2020)]{Vanchurin2020} Vanchurin, V. (2020). The world as a neural network. \textit{Entropy}, 22(11), 1210.
+
+\bibitem[Verlinde(2011)]{Verlinde2011} Verlinde, E. (2011). On the origin of gravity and the laws of Newton. \textit{Journal of High Energy Physics}, 2011(4), 29.
+
+\bibitem[Wolfram(2020)]{Wolfram2020} Wolfram, S. (2020). \textit{A Project to Find the Fundamental Theory of Physics}. Wolfram Media.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,168 @@
+\begin{thebibliography}{10}
+
+\bibitem{vonNeumann1932}
+John von Neumann.
+\newblock {\em Mathematische Grundlagen der Quantenmechanik}.
+\newblock Springer, Berlin, 1932.
+
+\bibitem{Dirac1930}
+Paul A.~M. Dirac.
+\newblock {\em The Principles of Quantum Mechanics}.
+\newblock Oxford University Press, 1930.
+
+\bibitem{Paper1}
+Sloan Austermann.
+\newblock The {L}orentzian {D}e{W}itt metric and the {P}ati-{S}alam gauge
+  group.
+\newblock {\em Zenodo preprint}, 2026.
+\newblock Companion paper.
+
+\bibitem{Paper2}
+Sloan Austermann.
+\newblock Fermion representations from the metric bundle: {C}lifford algebras
+  and the {P}ati-{S}alam spinor.
+\newblock {\em Zenodo preprint}, 2026.
+\newblock Companion paper.
+
+\bibitem{Paper3}
+Sloan Austermann.
+\newblock Gauge fields from the gauss equation of the metric bundle.
+\newblock {\em Zenodo preprint}, 2026.
+\newblock Companion paper.
+
+\bibitem{Paper4}
+Sloan Austermann.
+\newblock Anomaly cancellation in the metric bundle {P}ati-{S}alam theory.
+\newblock {\em Zenodo preprint}, 2026.
+\newblock Companion paper.
+
+\bibitem{Paper5}
+Sloan Austermann.
+\newblock The three-generation problem in the metric bundle framework.
+\newblock {\em Zenodo preprint}, 2026.
+\newblock Companion paper.
+
+\bibitem{Wootters1981}
+William~K. Wootters.
+\newblock Statistical distance and {H}ilbert space.
+\newblock {\em Physical Review D}, 23:357--362, 1981.
+
+\bibitem{BraunsteinCaves1994}
+Samuel~L. Braunstein and Carlton~M. Caves.
+\newblock Statistical distance and the geometry of quantum states.
+\newblock {\em Physical Review Letters}, 72:3439--3443, 1994.
+
+\bibitem{Friston2013}
+Karl Friston.
+\newblock Life as we know it.
+\newblock {\em Journal of the Royal Society Interface}, 10:20130475, 2013.
+
+\bibitem{HoffmanPrakash2014}
+Donald~D. Hoffman and Chetan Prakash.
+\newblock Objects of consciousness.
+\newblock {\em Frontiers in Psychology}, 5:577, 2014.
+
+\bibitem{Gleason1957}
+Andrew~M. Gleason.
+\newblock Measures on the closed subspaces of a {H}ilbert space.
+\newblock {\em Journal of Mathematics and Mechanics}, 6:885--893, 1957.
+
+\bibitem{MasanesMueller2011}
+Llu{\'\i}s Masanes and Markus~P. M{\"u}ller.
+\newblock A derivation of quantum theory from physical requirements.
+\newblock {\em New Journal of Physics}, 13:063001, 2011.
+
+\bibitem{FuchsMerminSchack2014}
+Christopher~A. Fuchs, N.~David Mermin, and R{\"u}diger Schack.
+\newblock An introduction to {QB}ism with an application to the locality of
+  quantum mechanics.
+\newblock {\em American Journal of Physics}, 82:749--754, 2014.
+
+\bibitem{CavesFuchsSchack2002}
+Carlton~M. Caves, Christopher~A. Fuchs, and R{\"u}diger Schack.
+\newblock Quantum probabilities as {B}ayesian probabilities.
+\newblock {\em Physical Review A}, 65:022305, 2002.
+
+\bibitem{Hardy2001}
+Lucien Hardy.
+\newblock Quantum theory from five reasonable axioms.
+\newblock 2001.
+
+\bibitem{ChiribellaEtAl2011}
+Giulio Chiribella, Giacomo~Mauro D'Ariano, and Paolo Perinotti.
+\newblock Informational derivation of quantum theory.
+\newblock {\em Physical Review A}, 84:012311, 2011.
+
+\bibitem{Cencov1982}
+Nikolai~N. \v{C}encov.
+\newblock {\em Statistical Decision Rules and Optimal Inference}, volume~53 of
+  {\em Translations of Mathematical Monographs}.
+\newblock American Mathematical Society, 1982.
+
+\bibitem{WoottersFields1989}
+William~K. Wootters and Brian~D. Fields.
+\newblock Optimal state-determination by mutually unbiased measurements.
+\newblock {\em Annals of Physics}, 191:363--381, 1989.
+
+\bibitem{Bandyopadhyay2002}
+Somshubhro Bandyopadhyay, P.~Oscar Boykin, Vwani Roychowdhury, and Farrokh
+  Vatan.
+\newblock A new proof for the existence of mutually unbiased bases.
+\newblock {\em Algorithmica}, 34:512--528, 2002.
+
+\bibitem{KlappeneckerRoetteler2005}
+Andreas Klappenecker and Martin R{\"o}tteler.
+\newblock Mutually unbiased bases are complex projective 2-designs.
+\newblock In {\em Proceedings of ISIT 2005}, pages 1740--1744, 2005.
+
+\bibitem{DeWitt1967}
+Bryce~S. DeWitt.
+\newblock Quantum theory of gravity. {I}. {T}he canonical theory.
+\newblock {\em Physical Review}, 160:1113--1148, 1967.
+
+\bibitem{Schmidt2001}
+Bernd~G. Schmidt.
+\newblock The {D}e{W}itt metric on the space of metrics.
+\newblock 2001.
+
+\bibitem{Gibbs1898}
+J.~Willard Gibbs.
+\newblock {Fourier's Series}.
+\newblock {\em Nature}, 59:200, 1898.
+
+\bibitem{HewittHewitt1979}
+Edwin Hewitt and Robert~E. Hewitt.
+\newblock The {G}ibbs-{W}ilbraham phenomenon: An episode in {F}ourier analysis.
+\newblock {\em Archive for History of Exact Sciences}, 21:129--160, 1979.
+
+\bibitem{Weyl1911}
+Hermann Weyl.
+\newblock {\"U}ber die asymptotische {V}erteilung der {E}igenwerte.
+\newblock {\em Nachrichten von der Gesellschaft der Wissenschaften zu
+  G{\"o}ttingen}, pages 110--117, 1911.
+
+\bibitem{Chatelin2011}
+Fran{\c{c}}oise Chatelin.
+\newblock {\em Eigenvalues of Matrices}.
+\newblock SIAM, Philadelphia, revised edition, 2011.
+
+\bibitem{Boffi2010}
+Daniele Boffi.
+\newblock Finite element approximation of eigenvalue problems.
+\newblock {\em Acta Numerica}, 19:1--120, 2010.
+
+\bibitem{Paper0a}
+Sloan Austermann.
+\newblock Structural idealism: Consciousness as the intrinsic nature of
+  physical structure.
+\newblock {\em Zenodo preprint}, 2026.
+\newblock Companion paper.
+
+\bibitem{Paper0b}
+Sloan Austermann.
+\newblock Formal correspondences between conscious agents and {M}arkov
+  blankets.
+\newblock {\em Zenodo preprint}, 2026.
+\newblock Companion paper.
+
+\end{thebibliography}
