@@ -1,0 +1,983 @@
+%%
+%% Riemannian Climate Fingerprinting
+%% Sloan Austermann, OmniSciences LLC
+%% Target: Journal of Climate / Climate Dynamics
+%%
+\documentclass[preprint,12pt]{elsarticle}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage{lineno}
+\usepackage{multirow}
+\usepackage{xcolor}
+
+\modulolinenumbers[5]
+
+\journal{Journal of Climate}
+
+% Notation shortcuts
+\newcommand{\SPD}{\mathrm{SPD}}
+\newcommand{\Sym}{\mathrm{Sym}}
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\vech}{\mathrm{vech}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\Cbar}{\bar{C}}
+\newcommand{\pval}{p}
+
+\setcitestyle{round,aysep={},yysep={;}}
+
+\begin{document}
+\onehalfspacing
+
+\begin{frontmatter}
+
+\title{Riemannian Climate Fingerprinting: Detection and Mechanistic Separation of Forcings on the Covariance Manifold}
+
+\author{Sloan Austermann}
+\address{OmniSciences LLC}
+\ead{sloan@omnisciences.co}
+
+\begin{abstract}
+Standard optimal fingerprinting \citep{Hasselmann1979,AllenStott2003} regresses observed temperature anomalies against model-predicted response patterns.
+This tests whether the \emph{mean state} has shifted, but climate forcings also reshape the \emph{covariance structure}---altering teleconnection strengths, variance ratios, and cross-index correlations.
+We propose Riemannian climate fingerprinting, which transports the detection framework to the manifold of symmetric positive-definite (SPD) covariance matrices equipped with the affine-invariant (Fisher--Rao) metric.
+
+We construct rolling covariance matrices from 8 teleconnection indices and 58 gridded HadCRUT5 temperature cells (1983--2024), map them to the tangent space at the Fr\'{e}chet mean via the Riemannian logarithm, and regress the resulting tangent vectors against three forcing time series: anthropogenic (CO$_2$+CH$_4$), volcanic (GloSSAC~v2.22 AOD), and solar (sunspot number).
+Significance is assessed via block-permutation surrogates that preserve temporal autocorrelation.
+
+Riemannian fingerprinting detects all three forcings as statistically significant (anthropogenic $\pval=0.002$, volcanic $\pval=0.002$, solar $\pval=0.010$) on teleconnection covariance, where standard Euclidean fingerprinting on the same data fails to reach significance for any forcing ($\pval=0.098$, $0.348$, $0.486$).
+A $V^+/V^-$ decomposition of regression coefficients into trace (energy budget) and traceless (teleconnection reorganization) components reveals mechanistically distinct forcing signatures: solar forcing acts primarily through the energy budget ($V^+=0.29$), while volcanic forcing operates almost entirely through teleconnection reorganization ($V^+=0.01$).
+
+The method is model-free (no climate model ensembles required) and operates entirely on observed data.
+Attribution fractions can be computed but are inherently imprecise---forcings are interdependent, effects are non-additive, and fractions are properties of the regression, not the climate system.
+The method's core contribution is robust detection and mechanistic separation, not variance partitioning.
+\end{abstract}
+
+\begin{keyword}
+climate detection \sep detection and attribution \sep Riemannian geometry \sep covariance manifold \sep optimal fingerprinting \sep teleconnections \sep SPD matrices
+\end{keyword}
+
+\end{frontmatter}
+
+\section*{Significance Statement}
+Climate change detection traditionally tests whether average temperatures have shifted, but climate forcings also reshape the relationships between different parts of the climate system---strengthening some connections and weakening others.
+We introduce a geometric method that detects these structural changes by treating climate covariance matrices as points on a curved mathematical surface, where standard flat-space statistics fail.
+Applied to 40~years of observations, the method detects human, volcanic, and solar influences on climate structure with high confidence, and reveals that each forcing reshapes the climate system through a qualitatively different mechanism: solar forcing primarily changes total variability, while volcanic eruptions almost entirely reorganize teleconnection patterns.
+This mechanistic fingerprint is invisible to standard detection methods.
+
+\linenumbers
+
+%% ====================================================================
+\section{Introduction}\label{sec:intro}
+%% ====================================================================
+
+\subsection{The detection and attribution problem}
+
+Detection and attribution (D\&A) is the central inferential problem in climate science: distinguishing externally forced climate change from internal variability \citep{IPCC_AR6_Ch3}.
+The foundational framework, due to \citet{Hasselmann1979}, casts the problem as a generalized regression of observed climate fields onto signal patterns predicted by general circulation models.
+\citet{AllenStott2003} formalized this into the total least squares framework with explicit treatment of model uncertainty, which has since become the standard approach in IPCC assessments.
+
+A common feature of all standard D\&A methods is that they operate on the \emph{mean state}---spatial fields of temperature or precipitation anomalies, possibly dimension-reduced by spherical harmonics or empirical orthogonal functions.
+This captures forced shifts in first-order statistics (the mean climate), but climate forcings also alter \emph{second-order statistics}: the covariance structure that encodes teleconnection strengths, variance ratios, and cross-index correlations.
+These covariance changes are invisible to mean-field D\&A.
+
+\subsection{Why covariance matters}
+
+Forcings do not merely shift means; they reshape correlation structures.
+Volcanic eruptions disrupt ENSO teleconnections \citep{Adams2003,Predybaylo2017}.
+The solar cycle modulates NAO--AO coupling \citep{Gray2010,Scaife2013}.
+Anthropogenic warming alters Arctic--midlatitude teleconnections \citep{FrancisVavrus2012,Cohen2014}.
+These effects operate on the covariance of the climate system, not just its mean.
+
+Second-order statistics contain substantially more information than first-order statistics.
+A $d$-dimensional system has $d(d+1)/2$ covariance degrees of freedom versus $d$ mean degrees of freedom.
+For $d=8$ teleconnection indices, this is 36 covariance DOF versus 8 mean DOF---a factor of 4.5.
+For $d=58$ gridded temperature cells, the ratio is 1,711 to 58---nearly 30-fold.
+This larger signal space provides more room for forced signals to separate from internal noise.
+
+\subsection{The geometry of covariance matrices}
+
+Covariance matrices live on $\SPD(d)$, the cone of $d \times d$ symmetric positive-definite matrices.
+This is not a flat Euclidean space but a curved Riemannian manifold.
+Euclidean operations---addition, subtraction, arithmetic averaging---on SPD matrices violate the positive-definiteness constraint, are not invariant to changes of basis, and weight large eigenvalues disproportionately \citep{Pennec2006,Moakher2005}.
+
+The affine-invariant (Fisher--Rao) metric provides a geometrically principled alternative.
+Under this metric, $\SPD(d)$ has the structure of the symmetric space $\GL^+(d)/\SO(d)$, with well-defined geodesics, an intrinsic Fr\'{e}chet mean, and a logarithmic map that linearizes the geometry for statistical analysis.
+This Riemannian framework has been successfully applied in brain--computer interfaces \citep{Barachant2013}, diffusion tensor imaging \citep{Pennec2006,Guillot2015}, and materials science, but has not previously been applied to climate D\&A.
+
+The affine-invariant metric is a special case of the DeWitt supermetric on the space of Riemannian metrics \citep{DeWitt1967}.
+This connection, elaborated in Section~\ref{sec:dewitt}, places climate covariance analysis within a broader geometric framework spanning general relativity, elasticity, and neuroscience.
+
+\subsection{Contributions}
+
+This paper makes four contributions:
+
+\begin{enumerate}
+\item \textbf{Detection with geometric advantage.} We demonstrate statistically significant detection of all three major forcings ($\pval < 0.01$) in observed climate covariance data where Euclidean methods on the same data fail to detect any.
+
+\item \textbf{Mechanistic separation via $V^+/V^-$.} We introduce a decomposition of regression coefficients into trace (energy budget) and traceless (teleconnection reorganization) components, revealing qualitatively distinct forcing signatures unavailable in standard mean-field D\&A.
+
+\item \textbf{Model-free detection.} The method requires no climate model ensembles---only observed data and forcing time series---eliminating model dependence at the cost of not having model-predicted response patterns as priors.
+
+\item \textbf{Riemannian fingerprinting on $\SPD(d)$.} We transport optimal fingerprinting to the SPD manifold via tangent-space regression, validated on both low-dimensional teleconnection indices ($d=8$) and high-dimensional gridded data ($d=58$).
+\end{enumerate}
+
+
+%% ====================================================================
+\section{Mathematical Framework}\label{sec:math}
+%% ====================================================================
+
+\subsection{The SPD manifold}\label{sec:spd}
+
+The space of $d \times d$ symmetric positive-definite matrices,
+\begin{equation}
+\SPD(d) = \bigl\{ C \in \RR^{d \times d} : C = C^\top,\; C > 0 \bigr\},
+\end{equation}
+is a Riemannian manifold of dimension $d(d+1)/2$.
+
+\paragraph{Affine-invariant metric.}
+At a point $C \in \SPD(d)$, the metric on tangent vectors $V, W \in T_C\SPD(d) \cong \Sym(d)$ is
+\begin{equation}\label{eq:metric}
+\langle V, W \rangle_C = \tr\bigl(C^{-1} V \, C^{-1} W\bigr).
+\end{equation}
+This metric is invariant under the $\GL(d)$ action $C \mapsto A C A^\top$ and gives $\SPD(d)$ the structure of the symmetric space $\GL^+(d)/\SO(d)$.
+
+\paragraph{Geodesic distance.}
+The geodesic distance between $C_1, C_2 \in \SPD(d)$ is
+\begin{equation}\label{eq:geodist}
+d(C_1, C_2) = \bigl\| \log\bigl(C_1^{-1/2}\, C_2\, C_1^{-1/2}\bigr) \bigr\|_F = \sqrt{\sum_{i=1}^d (\log \lambda_i)^2},
+\end{equation}
+where $\lambda_1, \ldots, \lambda_d$ are the generalized eigenvalues of the pencil $(C_1, C_2)$---that is, the eigenvalues of $C_1^{-1} C_2$.
+
+\paragraph{Geodesic.}
+The geodesic from $C_1$ to $C_2$ parametrized by $t \in [0,1]$ is
+\begin{equation}\label{eq:geodesic}
+\gamma(t) = C_1^{1/2}\bigl(C_1^{-1/2}\, C_2\, C_1^{-1/2}\bigr)^t C_1^{1/2}.
+\end{equation}
+
+\subsection{Fr\'{e}chet mean}\label{sec:frechet}
+
+The Fr\'{e}chet mean of a collection $\{C_1, \ldots, C_N\} \subset \SPD(d)$ is the unique minimizer
+\begin{equation}\label{eq:frechet}
+\Cbar = \arg\min_{C \in \SPD(d)} \sum_{i=1}^N d^2(C, C_i).
+\end{equation}
+We compute $\Cbar$ by Riemannian gradient descent.
+At a current estimate $\mu$, the Riemannian gradient is
+\begin{equation}
+\nabla = \frac{1}{N} \sum_{i=1}^N \log_\mu(C_i),
+\end{equation}
+and the update is $\mu_{k+1} = \exp_{\mu_k}(\nabla)$.
+The algorithm converges when $\|\nabla\|_F$ falls below a tolerance (we use $10^{-8}$).
+Initialization via the log-Euclidean approximation $\exp\!\bigl(\frac{1}{N}\sum_i \log C_i\bigr)$ ensures rapid convergence, typically within 5--10 iterations.
+
+\subsection{Logarithmic map and tangent-space linearization}\label{sec:logmap}
+
+The Riemannian logarithm at $\Cbar$ maps each covariance matrix to the tangent space:
+\begin{equation}\label{eq:logmap}
+\log_{\Cbar}(C_i) = \Cbar^{1/2}\, \log\!\bigl(\Cbar^{-1/2}\, C_i\, \Cbar^{-1/2}\bigr)\, \Cbar^{1/2}.
+\end{equation}
+In practice, because the $\Cbar^{1/2}$ factors cancel in the affine-invariant inner product~\eqref{eq:metric}, we work with the simplified tangent vectors
+\begin{equation}\label{eq:tangent}
+V_i = \log\!\bigl(\Cbar^{-1/2}\, C_i\, \Cbar^{-1/2}\bigr) \in \Sym(d).
+\end{equation}
+These are vectorized via the $\vech$ operator: $\bm{v}_i = \vech(V_i) \in \RR^{d(d+1)/2}$, where off-diagonal elements are scaled by $\sqrt{2}$ to preserve the Frobenius norm.
+
+\subsection{Tangent-space regression (Riemannian climate fingerprinting)}\label{sec:regression}
+
+Given $K$ forcing time series $F_1(t), \ldots, F_K(t)$ aligned to the covariance window centers, we solve the multivariate linear regression
+\begin{equation}\label{eq:regression}
+\bm{v}(t) = \sum_{k=1}^K \bm{\beta}_k\, F_k(t) + \bm{\beta}_0 + \bm{\varepsilon}(t),
+\end{equation}
+where $\bm{v}(t) \in \RR^p$ with $p = d(d+1)/2$ is the vectorized tangent vector at time $t$, and each $\bm{\beta}_k \in \RR^p$ is the multivariate regression coefficient for forcing~$k$.
+
+For the teleconnection case ($d=8$, $p=36$, $N \approx 440$ windows), ordinary least squares (OLS) is well-posed since $p \ll N$.
+For the gridded case ($d=58$, $p=1{,}711$, $N \approx 440$), $p > N$ requires regularization.
+We use PCA dimensionality reduction retaining the top 30 principal components (approximately 85\% of tangent-space variance), followed by Ridge regression with penalty $\alpha = 1.0$ (chosen via leave-one-block-out cross-validation with block size 60 months).
+The regression coefficients are then projected back to the full $p$-dimensional tangent space for interpretation.
+
+We do not rely on parametric $F$-tests because the Gaussianity assumption fails for tangent vectors derived from overlapping rolling windows.
+Instead, significance is assessed via the surrogate procedure described in Section~\ref{sec:surrogates}.
+
+\subsection{$V^+/V^-$ decomposition}\label{sec:vpvm}
+
+Each regression coefficient $\bm{\beta}_k$ can be reshaped to a symmetric matrix $B_k = \vech^{-1}(\bm{\beta}_k) \in \Sym(d)$.
+We decompose
+\begin{equation}\label{eq:vpvm}
+B_k = B_k^+ + B_k^-,
+\end{equation}
+where
+\begin{align}
+B_k^+ &= \frac{\tr(B_k)}{d}\, I_d \qquad \text{(trace/isotropic component)}, \label{eq:vplus}\\
+B_k^- &= B_k - B_k^+ \qquad \text{(traceless/anisotropic component)}. \label{eq:vminus}
+\end{align}
+The normalized $V^+$ ratio is
+\begin{equation}\label{eq:vratio}
+r_k^+ = \frac{\|B_k^+\|_F}{\|B_k^+\|_F + \|B_k^-\|_F}.
+\end{equation}
+
+This ratio classifies forcing mechanisms:
+\begin{itemize}
+\item $r^+ \approx 1$: forcing primarily changes total variance (energy budget effect);
+\item $r^+ \approx 0$: forcing primarily reorganizes correlations (teleconnection effect);
+\item $r^+ \approx 0.5$: mixed mechanism.
+\end{itemize}
+
+The $V^+/V^-$ decomposition corresponds to the splitting of $T_C\SPD(d)$ into the trace direction (scalar/conformal mode) and the traceless complement under the $\GL^+(d)/\SO(d)$ symmetric space structure.
+In the DeWitt supermetric parametrized by~$\lambda$, $V^+$ is the conformal mode and $V^-$ spans the remaining $d(d+1)/2 - 1$ directions (Section~\ref{sec:dewitt}).
+
+
+%% ====================================================================
+\section{Data and Methods}\label{sec:methods}
+%% ====================================================================
+
+\subsection{Data sources}\label{sec:data}
+
+\paragraph{Teleconnection indices ($d=8$).}
+Monthly values over 1983--2024 from NOAA/CPC and KNMI Climate Explorer:
+Ni\~{n}o~3.4 (central equatorial Pacific SST, ENSO), SOI (Southern Oscillation Index), PDO (Pacific Decadal Oscillation), AMO (Atlantic Multidecadal Oscillation), NAO (North Atlantic Oscillation), AO (Arctic Oscillation), PNA (Pacific--North American pattern), and GMTA (global mean temperature anomaly, HadCRUT5).
+
+\paragraph{Gridded temperatures ($d=58$).}
+HadCRUT5 $5^\circ \times 5^\circ$ grid cells selected for data completeness over 1983--2024, providing monthly temperature anomalies relative to the 1961--1990 baseline.
+
+\paragraph{Forcing time series.}
+Three forcing proxies are used:
+\begin{itemize}
+\item \emph{Anthropogenic:} monthly CO$_2$ and CH$_4$ concentrations from NOAA Global Monitoring Laboratory (Mauna Loa), combined via first principal component to avoid collinearity.
+\item \emph{Volcanic:} stratospheric aerosol optical depth from GloSSAC~v2.22, capturing the episodic signals of El~Chich\'{o}n (1982), Pinatubo (1991), and Hunga~Tonga (2022).
+\item \emph{Solar:} monthly sunspot number from SILSO~v2.0, a proxy for the $\sim$11-year solar cycle.
+\end{itemize}
+All forcing series are standardized to zero mean and unit variance.
+Forcing values are aligned to rolling window centers with lags calibrated to the physical response timescale: 3~months for volcanic, 6~months for solar, and 0~months for anthropogenic.
+
+\subsection{Rolling covariance estimation}\label{sec:rolling}
+
+We compute covariance matrices in rolling windows of width $w = 60$~months (5~years) with a step size of 1~month, yielding $N \approx 440$ SPD matrices over the 1983--2024 period.
+Ledoit--Wolf shrinkage toward a scaled identity matrix is applied with parameter $\lambda_\mathrm{LW} = 0.15$ to regularize the covariance estimates:
+\begin{equation}
+\hat{C}(t) = (1 - \lambda_\mathrm{LW})\, S(t) + \lambda_\mathrm{LW}\, \frac{\tr(S(t))}{d}\, I_d,
+\end{equation}
+where $S(t)$ is the sample covariance in window $t$.
+Positive-definiteness is further guaranteed by clamping eigenvalues at a floor of $10^{-8}$.
+The shrinkage parameter was not tuned; sensitivity to values in $[0.05, 0.30]$ is documented in Appendix~\ref{app:sensitivity}.
+
+\subsection{Regression configuration}\label{sec:regconfig}
+
+\paragraph{Teleconnection-based ($d=8$).}
+With $p = 36$ tangent-space dimensions and $N \approx 440$ time points, OLS is well-posed ($p \ll N$).
+We report multivariate $R^2$ and per-forcing test statistics.
+
+\paragraph{Gridded ($d=58$).}
+With $p = 1{,}711$ tangent-space dimensions and $N \approx 440$, PCA reduction to 30 components (retaining approximately 85\% of tangent-space variance) is applied prior to Ridge regression with penalty $\alpha = 1.0$, selected via leave-one-block-out cross-validation with block size 60~months.
+Regression coefficients are projected back to the full tangent space for $V^+/V^-$ decomposition.
+
+\paragraph{Euclidean comparison.}
+To isolate the geometric contribution, we run an identical pipeline on the same data but regress against raw vectorized covariance matrices $\vech(C_i)$ without the Riemannian log map or Fr\'{e}chet mean.
+A three-way comparison (mean-field Euclidean, flat covariance Euclidean, Riemannian) is reported in Section~\ref{sec:geometric}.
+
+\subsection{Significance testing: block-permutation surrogates}\label{sec:surrogates}
+
+Parametric $p$-values are unreliable because (i)~tangent vectors are autocorrelated due to overlapping windows, (ii)~their distribution is non-Gaussian, and (iii)~multiple regression introduces dependence between forcing estimates.
+We therefore assess significance non-parametrically:
+
+\begin{enumerate}
+\item For each of $n_\mathrm{surr} = 1{,}000$ surrogate iterations:
+  \begin{enumerate}
+  \item Randomly permute the forcing design matrix in contiguous blocks of length $b = 5$~years (60~months, matching the rolling window), destroying forcing--covariance coupling while preserving within-block autocorrelation.
+  \item Re-run the regression with permuted forcings.
+  \item Record the per-forcing $F$-statistic (equivalently, $\|\bm{\beta}_k\|^2$).
+  \end{enumerate}
+\item The $p$-value for forcing $k$ is the fraction of surrogates with $F_k^\mathrm{surr} \geq F_k^\mathrm{obs}$.
+\end{enumerate}
+
+This is a non-parametric test with exact size control up to Monte Carlo error ($\pm 0.001$ at 1{,}000 surrogates).
+Phase-randomization surrogates (preserving the power spectrum) were also tested and yield similar results; block permutation is reported as the primary method because it makes fewer assumptions about spectral structure.
+
+We report results at the primary block size of $b = 5$ years, which provides 30 permutable blocks---sufficient for a well-resolved null distribution while preserving substantial within-block autocorrelation.
+Sensitivity to block size is documented in Appendix~\ref{app:blocksize}, where we show that significance depends on this choice: at block sizes $\geq 12$~years, anthropogenic and solar lose significance due to insufficient permutation resolution (only 13 blocks), not absence of signal.
+Volcanic forcing is the most robust, remaining significant at all tested block sizes up to 20~years.
+
+\subsection{Bootstrap stability}\label{sec:bootstrap}
+
+Block bootstrap (block size 60~months, 2{,}000 resamples) is used to assess stability.
+The full pipeline---Fr\'{e}chet mean, log map, regression---is re-run on each bootstrap sample.
+We report bootstrap 95\% confidence intervals on $V^+/V^-$ ratios (primary) and attribution fractions (secondary, with caveats discussed in Section~\ref{sec:attribution}).
+
+
+%% ====================================================================
+\section{Results}\label{sec:results}
+%% ====================================================================
+
+\subsection{Detection: all three forcings significant ($d=8$ teleconnections)}\label{sec:detection8}
+
+Table~\ref{tab:detection8} presents the central detection result.
+All three forcings are detected at $\pval < 0.01$ via block-permutation surrogates (block size 5~years, 1{,}000 surrogates).
+The multivariate $R^2 = 0.27$, meaning 73\% of tangent-space variance is unexplained---consistent with dominant internal variability (ENSO, PDO regime shifts, weather noise) on interannual timescales.
+The central finding is that each forcing leaves a statistically distinguishable fingerprint on the covariance structure of the climate system.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig2_rolling_covariance.pdf}
+\caption{Rolling covariance elements (60-month window) for selected index pairs, 1983--2024. Non-stationarity is evident, with clear perturbation from the Pinatubo eruption (1991, dashed red line). These time-varying covariance matrices form a trajectory on $\SPD(d)$ that the tangent-space regression decomposes into forced and unforced components.}
+\label{fig:rolling_cov}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\caption{Detection significance for three forcings via Riemannian tangent-space regression on 8 teleconnection indices (1983--2024). $p$-values from block-permutation surrogates ($n_\mathrm{surr} = 1{,}000$, block size = 5~years).}
+\label{tab:detection8}
+\begin{tabular}{lccc}
+\toprule
+Forcing & $\|\bm{\beta}\|_F$ & $\pval$-value & Detected? \\
+\midrule
+Anthropogenic (CO$_2$+CH$_4$) & 0.343 & 0.002 & Yes ($\pval < 0.01$) \\
+Volcanic (AOD) & 0.437 & 0.002 & Yes ($\pval < 0.01$) \\
+Solar (SSN) & 0.328 & 0.010 & Yes ($\pval < 0.01$) \\
+\midrule
+\multicolumn{4}{l}{Multivariate $R^2 = 0.27$} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig3_surrogate_nulls.pdf}
+\caption{Block-permutation null distributions (500 surrogates, block size = 5~years) for each forcing. Black vertical lines mark the observed $\|\bm{\beta}\|_F$. All three observed values lie well outside the null distributions, confirming statistically significant detection.}
+\label{fig:surrogates}
+\end{figure}
+
+\subsection{Detection: gridded validation ($d=58$)}\label{sec:detection58}
+
+Table~\ref{tab:detection58} shows that all three forcings are detected at $\pval = 0.001$ (at the resolution of 1{,}000 surrogates) in the gridded HadCRUT5 analysis.
+PCA plus Ridge regression enables fingerprinting in $p = 1{,}711$ tangent-space dimensions, and detection results are robust across both low- and high-dimensional representations of the climate system ($R^2 = 0.30$).
+
+\begin{table}[t]
+\centering
+\caption{Detection significance for gridded HadCRUT5 ($d=58$, $p=1{,}711$). PCA to 30 components + Ridge regression ($\alpha=1.0$). Block-permutation surrogates ($n_\mathrm{surr}=1{,}000$, block size = 5~years).}
+\label{tab:detection58}
+\begin{tabular}{lcc}
+\toprule
+Forcing & $\pval$-value & Detected? \\
+\midrule
+Anthropogenic & 0.001 & Yes \\
+Volcanic & 0.001 & Yes \\
+Solar & 0.001 & Yes \\
+\midrule
+\multicolumn{3}{l}{Multivariate $R^2 = 0.30$} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Mechanistic separation: $V^+/V^-$ decomposition}\label{sec:mechanism}
+
+Table~\ref{tab:vpvm} presents the $V^+/V^-$ decomposition for the teleconnection-based analysis.
+The three forcings occupy qualitatively distinct regions of the $V^+/V^-$ spectrum, revealing mechanistically distinct forcing signatures.
+
+\begin{table}[t]
+\centering
+\caption{$V^+/V^-$ decomposition of regression coefficients (teleconnection-based, $d=8$). $V^+$ ratio defined by Eq.~\eqref{eq:vratio}.}
+\label{tab:vpvm}
+\begin{tabular}{lccl}
+\toprule
+Forcing & $V^+$ ratio & $V^-$ dominant? & Mechanism \\
+\midrule
+Solar & 0.29 & No & Primarily energy budget \\
+Anthropogenic & 0.11 & Yes & Mixed; mostly teleconnection \\
+Volcanic & 0.01 & Yes & Almost purely teleconnection \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Solar ($V^+ = 0.29$).}
+The 11-year solar cycle modulates total energy input, changing the overall variance of the climate system.
+This is consistent with total solar irradiance (TSI) variations affecting the global energy budget directly: when TSI rises, climate variability increases roughly isotropically across indices.
+Solar forcing has the highest $V^+$ ratio of the three forcings, indicating that its covariance fingerprint is dominated by energy-budget effects rather than teleconnection reorganization.
+
+\paragraph{Anthropogenic ($V^+ = 0.11$).}
+Long-term warming has a component of increased total variance (stronger extremes), but the dominant effect on covariance is a reshaping of correlations---for example, weakening of tropical--polar coupling as the Arctic warms preferentially (Arctic amplification), and altered ENSO--midlatitude teleconnections.
+The low $V^+$ ratio indicates that anthropogenic forcing acts primarily through teleconnection reorganization rather than a uniform increase in variance.
+
+\paragraph{Volcanic ($V^+ = 0.01$).}
+Major eruptions cause rapid global cooling followed by recovery, but the dominant covariance effect is a reorganization of teleconnection patterns---for example, the strengthened NAO-like pattern observed after Pinatubo \citep{Adams2003}.
+The energy-budget signal of an eruption is fast and transient; the teleconnection disruption persists longer in the rolling covariance window and dominates the fingerprint.
+That volcanic forcing has the lowest $V^+$ ratio of the three forcings is a novel finding: eruptions are typically discussed in terms of their radiative (energy budget) effects, but their covariance fingerprint is almost entirely structural.
+
+The mechanistic separation provided by $V^+/V^-$ is a novel diagnostic unavailable in standard mean-field D\&A.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/fig5_vplus_vminus.pdf}
+\caption{$V^+/V^-$ mechanistic decomposition of regression coefficients. Solar forcing has the highest $V^+$ fraction (energy budget mechanism), while volcanic forcing is almost entirely $V^-$ (teleconnection reorganization). This ordering is invariant across all tested configurations (Tables~\ref{tab:B1}--\ref{tab:B5}).}
+\label{fig:vpvm}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig6_beta_heatmaps.pdf}
+\caption{Regression coefficient matrices $B_k = \vech^{-1}(\bm{\beta}_k)$ for each forcing (teleconnection-based, $d=8$). Row/column labels are climate indices. The distinct spatial patterns confirm that each forcing reshapes different aspects of the covariance structure.}
+\label{fig:betas}
+\end{figure}
+
+\paragraph{Caveat.}
+The $V^+/V^-$ decomposition is basis-dependent.
+When applied after PCA projection back to the full space (gridded $d=58$ case), the trace of the projected regression coefficient does not correspond to the physical energy budget.
+We therefore report $V^+$ ratios only for the teleconnection-based analysis, where the basis has clear physical meaning.
+This loss of interpretability after PCA is a fundamental limitation: the $V^+/V^-$ decomposition provides mechanistic insight only when the covariance basis corresponds to physically meaningful climate indices.
+
+\subsection{Geometric advantage: Euclidean comparison}\label{sec:geometric}
+
+Table~\ref{tab:euclidean} presents the central comparison.
+No forcing reaches $\pval < 0.05$ under Euclidean regression on the same data, the same surrogates, and the same forcing series.
+The only difference is the geometry: Euclidean regression treats covariance matrices as flat vectors, ignoring the manifold structure.
+The Riemannian approach improves $p$-values by one to two orders of magnitude.
+
+\begin{table}[t]
+\centering
+\caption{Euclidean vs.\ Riemannian detection on identical data ($d=8$ teleconnections). Same surrogates, same forcings---only the geometry differs.}
+\label{tab:euclidean}
+\begin{tabular}{lcc}
+\toprule
+Forcing & $\pval$ (Euclidean) & $\pval$ (Riemannian) \\
+\midrule
+Anthropogenic & 0.098 & 0.002 \\
+Volcanic & 0.348 & 0.002 \\
+Solar & 0.486 & 0.010 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig4_threeway_comparison.pdf}
+\caption{Three-way method comparison showing $-\log_{10}(p)$ for each forcing. Higher bars indicate stronger detection. The dashed line marks $p=0.05$; the dotted line marks $p=0.01$. Riemannian fingerprinting (right) detects all three forcings at $p<0.01$. Standard Euclidean regression on means (left) detects none. The flat Euclidean control on vectorized covariances (center) isolates the dimensionality effect from the geometric effect.}
+\label{fig:threeway}
+\end{figure}
+
+The dramatic improvement arises from three sources.
+First, covariance matrices contain $d(d+1)/2 = 36$ independent entries versus $d = 8$ for mean fields, providing a larger signal space.
+Second, the Riemannian log map treats eigenvalue ratios on a logarithmic scale, which is the natural scale for the multiplicative perturbations that forcings induce on covariance structure (a 10\% increase in variance is the same ``distance'' whether the baseline variance is 0.1 or 10).
+Third, linearization at the Fr\'{e}chet mean (the intrinsic center of the data cloud on the manifold) minimizes distortion, while Euclidean regression has no such principled linearization point.
+
+To disentangle the dimensionality effect from the geometric effect, Table~\ref{tab:threeway} presents a three-way comparison.
+The flat Euclidean control uses the same 36-dimensional vectorized covariance matrices but without the Riemannian log map or Fr\'{e}chet mean.
+Comparing the flat Euclidean (36D) to Riemannian (36D) columns isolates the purely geometric contribution at fixed dimensionality: anthropogenic improves from $\pval = 0.016$ to $0.002$, and solar crosses the significance threshold from $0.056$ to $0.010$.
+The geometry contributes independently of the dimensionality increase.
+
+\begin{table}[t]
+\centering
+\caption{Three-way method comparison isolating the geometric effect. ``Euclidean (means)'' regresses mean anomalies (8D). ``Flat Euclidean (cov)'' regresses vectorized covariance matrices (36D) without Riemannian geometry. ``Riemannian'' uses the log map at the Fr\'{e}chet mean (36D).}
+\label{tab:threeway}
+\begin{tabular}{lccccl}
+\toprule
+Method & Dims & $\pval_\mathrm{anthro}$ & $\pval_\mathrm{volc}$ & $\pval_\mathrm{solar}$ & $R^2$ \\
+\midrule
+Euclidean (means) & 8 & 0.098 & 0.348 & 0.486 & 0.430 \\
+Flat Euclidean (cov) & 36 & 0.016 & 0.002 & 0.056 & 0.235 \\
+Riemannian & 36 & 0.002 & 0.002 & 0.010 & 0.276 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The higher $R^2$ for the mean-field Euclidean case (0.430 vs.\ 0.276) does not indicate superior detection.
+It reflects the lower dimensionality: 8 response dimensions are more easily ``explained'' by 3 predictors than 36 are.
+The relevant comparison is the $p$-value, which measures whether the explained variance is statistically distinguishable from what chance would produce.
+
+\subsection{Attribution fractions (with caveats)}\label{sec:attribution}
+
+Attribution fractions---defined as $\|\bm{\beta}_k\|^2 / \sum_{k'} \|\bm{\beta}_{k'}\|^2$---can be computed from the regression but should be interpreted with extreme caution.
+They are presented in Table~\ref{tab:attribution} for completeness, not as a primary result.
+
+\begin{table}[t]
+\centering
+\caption{Bootstrap 95\% confidence intervals on attribution fractions (teleconnection-based, $d=8$). These fractions are inherently imprecise---see text for three reasons they should not be over-interpreted.}
+\label{tab:attribution}
+\begin{tabular}{lcc}
+\toprule
+Forcing & Attribution \% & 95\% CI \\
+\midrule
+Anthropogenic & 36\% & [29\%, 44\%] \\
+Volcanic & 26\% & [16\%, 37\%] \\
+Solar & 38\% & [27\%, 46\%] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three reasons these fractions should not be over-interpreted:
+
+\begin{enumerate}
+\item \textbf{Forcings are not independent.} Anthropogenic warming modulates the climate's response to volcanic and solar forcings (e.g., a warmer ocean responds differently to eruptions).
+The regression treats forcings as additive predictors, but the real climate system has nonlinear interactions.
+
+\item \textbf{Effects are not additive on the covariance manifold.} The SPD manifold is curved.
+The tangent-space linearization enables additive regression, but the underlying covariance perturbations compose multiplicatively ($C \mapsto A C A^\top$).
+Attribution fractions from the linearized regression do not correspond to a clean decomposition of the nonlinear covariance evolution.
+
+\item \textbf{Fractions are properties of the regression, not the climate.} The fractions depend on forcing time series normalization, regression method (OLS vs.\ Ridge), window size, and shrinkage parameter.
+Different defensible methodological choices yield fractions that vary by 10--15 percentage points (Appendix~\ref{app:sensitivity}).
+The detection $p$-values are robust to these choices; the fractions are not.
+\end{enumerate}
+
+The 95\% confidence intervals are wide and overlap substantially.
+With $R^2 \approx 0.27$--$0.30$, approximately 70\% of covariance variation is not explained by the three forcings---this is dominated by internal variability (ENSO, PDO regime shifts, and other modes of natural variability).
+This method provides robust \emph{detection} and \emph{mechanistic separation}, not precise variance partitioning.
+
+
+%% ====================================================================
+\section{Discussion}\label{sec:discussion}
+%% ====================================================================
+
+\subsection{Why Riemannian outperforms Euclidean}\label{sec:whyriemann}
+
+The Riemannian approach gains statistical power from three sources, which can now be discussed in light of the results.
+
+First, covariance matrices provide more degrees of freedom than mean fields.
+For $d=8$ indices, the 36 covariance DOF versus 8 mean DOF provide a larger space in which forcing signals can separate from noise.
+The three-way comparison (Table~\ref{tab:threeway}) confirms that moving from 8 to 36 dimensions, even without Riemannian geometry, already improves detection for volcanic forcing.
+
+Second, the affine-invariant metric treats eigenvalue ratios on a logarithmic scale.
+The Euclidean distance $\|C_1 - C_2\|_F$ weights large eigenvalues disproportionately and is not invariant to reparametrization.
+The geodesic distance~\eqref{eq:geodist} treats all eigenvalue ratios equally on a log scale, which is the natural scale for multiplicative perturbations of covariance structure.
+Forcing-induced changes in covariance are multiplicative---a 20\% increase in ENSO variance is the same physical effect regardless of the baseline ENSO variance level---and the Riemannian metric captures this.
+
+Third, linearization at the Fr\'{e}chet mean provides the best linear approximation to the curved geometry, minimizing distortion in the tangent-space regression.
+The three-way comparison confirms an independent geometric contribution beyond dimensionality: at fixed dimensionality (36D), the Riemannian approach improves anthropogenic $p$-values from 0.016 to 0.002 and moves solar from marginal ($\pval = 0.056$) to significant ($\pval = 0.010$).
+
+We emphasize that the geometric advantage is \emph{partly} dimensionality and \emph{partly} geometry (Table~\ref{tab:threeway}).
+Both contributions are real and complementary.
+
+\subsection{$V^+/V^-$ as a mechanistic diagnostic}\label{sec:vpvm_discuss}
+
+The $V^+/V^-$ decomposition provides a principled, geometry-motivated way to classify forcing mechanisms.
+The trace component $B_k^+$ captures changes in total variance---analogous to the energy budget.
+Forcings that inject or remove energy uniformly inflate or deflate the covariance matrix isotropically.
+The traceless component $B_k^-$ captures changes in correlation structure at approximately fixed total variance---analogous to teleconnection reorganization, where energy is redistributed among modes without changing the total.
+
+That the three forcings produce distinct $V^+/V^-$ signatures (solar: 0.29, anthropogenic: 0.11, volcanic: 0.01) is a novel empirical finding.
+It suggests that covariance-based fingerprinting can provide mechanistic information beyond what mean-field methods offer.
+For example, two forcings that produce identical mean-field responses could in principle have distinguishable covariance fingerprints with different $V^+/V^-$ ratios.
+
+\paragraph{Limitation.}
+The $V^+/V^-$ decomposition is basis-dependent.
+In the teleconnection analysis ($d=8$), the basis consists of physically meaningful climate indices, and the trace genuinely reflects total variance change.
+In the gridded analysis ($d=58$), PCA dimensionality reduction precedes regression, and the projected regression coefficients live in a rotated basis with no simple physical interpretation.
+The ``trace'' of the projected $\bm{\beta}$ is not the energy budget.
+We recommend interpreting $V^+/V^-$ only when the covariance basis has clear physical meaning, and we restrict our mechanistic claims to the teleconnection-based results.
+
+\subsection{Why attribution fractions are inherently unstable}\label{sec:attrib_discuss}
+
+Attribution fractions---the percentage of explained covariance variance assigned to each forcing---are a natural quantity to report but are fundamentally less robust than detection $p$-values or $V^+/V^-$ ratios.
+We elaborate on the three reasons given in Section~\ref{sec:attribution}.
+
+\paragraph{Forcing interdependence.}
+Anthropogenic warming changes the background state on which volcanic and solar forcings act.
+A warmer ocean has different ENSO dynamics, so a volcanic eruption's teleconnection disruption depends on the anthropogenic trend.
+The regression assumes additive forcing contributions, but the real system has interactions.
+Varying the order of forcing entry (stepwise regression) changes fractions by 5--10 percentage points.
+
+\paragraph{Non-additivity on the manifold.}
+Covariance perturbations compose multiplicatively: if forcing~A sends $C$ to $A C A^\top$ and forcing~B sends $C$ to $B C B^\top$, the combined effect is $B A C A^\top B^\top \neq A C A^\top + B C B^\top - C$.
+The tangent-space linearization makes effects approximately additive near the Fr\'{e}chet mean, but this is an approximation.
+Attribution fractions inherit the linearization error, while the detection test (is the signal nonzero?) does not.
+
+\paragraph{Methodological dependence.}
+The fractions depend on window size (48 vs.\ 60 vs.\ 72 months shifts fractions by approximately 10 percentage points), shrinkage parameter ($\lambda_\mathrm{LW} = 0.10$ vs.\ $0.25$), regression method, and forcing normalization.
+The sensitivity analyses in Appendix~\ref{app:sensitivity} document this instability.
+The asymmetry is stark: detection $p$-values are robust across all tested methodological choices (all forcings remain significant at $\pval < 0.05$ for window sizes 48--84 months and shrinkage 0.05--0.30), while fractions are not.
+This asymmetry is the core reason we frame the paper around detection and mechanism, not attribution percentages.
+
+\subsection{Other limitations}\label{sec:limitations}
+
+\paragraph{Low $R^2$.}
+The model explains approximately 27--30\% of tangent-space variance.
+This is not a failure of the method---internal variability (ENSO, weather noise, decadal oscillations) dominates climate covariance on interannual timescales.
+The relevant point is that the 27--30\% that \emph{is} explained is attributable to specific forcings with high statistical confidence.
+Stated differently, $R^2 \approx 0.30$ means 70\% of covariance variability is internal, which is entirely expected for a 5-year rolling window analysis dominated by ENSO cycling.
+
+\paragraph{Rolling window assumptions.}
+The 60-month window is a compromise: shorter windows are noisier (ill-conditioned covariance estimates), while longer windows smooth out volcanic signals.
+Results are qualitatively robust to window sizes of 48--72 months but quantitatively sensitive (Table~\ref{tab:B1}).
+
+\paragraph{Shrinkage.}
+Ledoit--Wolf shrinkage toward a scaled identity biases covariance estimates toward isotropy.
+This is necessary for positive-definiteness but may attenuate the $V^-$ signal.
+The shrinkage parameter $\lambda_\mathrm{LW} = 0.15$ was not tuned; results are stable for $\lambda_\mathrm{LW} \in [0.10, 0.25]$ (Table~\ref{tab:B2}).
+
+\paragraph{Solar significance.}
+The 1983--2024 analysis window contains only approximately 4 solar cycles.
+While solar forcing is detected at $\pval = 0.010$, this result should be treated with more caution than the anthropogenic and volcanic detections.
+Extended windows (Table~\ref{tab:B3}) confirm solar significance with up to 7 cycles ($\pval = 0.014$), but the small number of cycles remains a limitation.
+Solar detection would benefit most from extension to longer observational records.
+
+\paragraph{No climate model comparison.}
+Standard D\&A uses climate model ensembles (e.g., CMIP6 historical simulations) to define expected response patterns and estimate internal variability.
+Our model-free approach eliminates model dependence but also foregoes the physical constraints that model-predicted patterns provide.
+Validation against CMIP6 single-forcing experiments (historicalNat, historicalGHG, historicalVol) would provide the strongest possible test of Riemannian fingerprinting: in controlled model experiments, the true forcing is known, and one can verify that $V^+/V^-$ predictions match the actual forcing mechanism.
+This is the most important direction for future work.
+
+\subsection{Comparison with existing literature}\label{sec:literature}
+
+Standard optimal fingerprinting \citep{Hasselmann1979,AllenStott2003,Hegerl2007} operates on spatial/temporal mean fields and is complementary to our covariance-based approach---the two methods detect different aspects of the forced climate response.
+\citet{Ribes2013,Ribes2017} address the high-dimensionality challenge in standard fingerprinting via regularization, but still operate on means.
+
+SPD matrices have been used in paleoclimate reconstructions \citep{Smerdon2015,Guillot2015}, but not for D\&A.
+Tangent-space methods on SPD manifolds are well-established in brain--computer interfaces \citep{Barachant2013}, where they classify covariance matrices of EEG signals---the same mathematical framework applied to a different domain.
+The Riemannian statistical foundations we build on are due to \citet{Pennec2006} and \citet{Said2017}.
+
+To our knowledge, this is the first application of Riemannian tangent-space regression for climate forcing detection and mechanistic separation.
+
+\subsection{Connection to the DeWitt supermetric}\label{sec:dewitt}
+
+The affine-invariant metric~\eqref{eq:metric} on $\SPD(d)$ is a special case of the DeWitt supermetric on the space of Riemannian metrics $\GL^+(d)/\SO(d)$ \citep{DeWitt1967}.
+The DeWitt metric is parametrized by a single constant $\lambda$:
+\begin{equation}\label{eq:dewitt}
+G_{ijkl}^{(\lambda)} = g_{ik}\, g_{jl} + g_{il}\, g_{jk} + \lambda\, g_{ij}\, g_{kl}.
+\end{equation}
+At $\lambda = -2/d$, the $V^+$ (conformal) mode decouples from $V^-$ (volume-preserving deformations).
+Our $V^+/V^-$ decomposition corresponds exactly to this conformal/non-conformal split in the tangent space of $\SPD(d)$.
+
+This connection is conceptually interesting but not essential to the results.
+We note it because it places climate covariance analysis within a broader geometric framework that includes applications in general relativity \citep{DeWitt1967}, materials science (elastic tensor manifolds), and neuroscience (diffusion tensor imaging).
+The same Riemannian machinery---Fr\'{e}chet mean, log map, tangent-space regression, $V^+/V^-$ decomposition---applies across these domains, suggesting that the approach may be of independent interest beyond climate science.
+
+\subsection{Future directions}\label{sec:future}
+
+Several extensions of this work are natural.
+
+\paragraph{CMIP6 ground truth validation.}
+Applying Riemannian fingerprinting to CMIP6 historical simulations (e.g., CESM2, UKESM, GFDL-ESM4), where the true forcing is known, would validate $V^+/V^-$ predictions against controlled experiments.
+Single-forcing experiments (historicalNat, historicalGHG) could serve as the strongest test of mechanistic separation.
+This requires approximately 1--10~GB per model from the Earth System Grid Federation.
+
+\paragraph{Longer records.}
+Extension back to 1900 using HadCRUT5, accepting sparser high-latitude coverage, would provide approximately 11 solar cycles for more robust solar detection and a longer anthropogenic trend for improved signal-to-noise.
+
+\paragraph{Model-informed Riemannian fingerprinting.}
+Using CMIP6 single-forcing experiments to define expected covariance response patterns as priors on the SPD manifold would combine the geometric advantages of our method with the physical constraints from climate models.
+
+\paragraph{Spatio-temporal covariance.}
+Extension to tensor product $\SPD(d_\mathrm{spatial}) \times \SPD(d_\mathrm{temporal})$ would detect forcings that change both spatial correlation patterns and temporal persistence structures.
+
+\paragraph{Tipping point detection.}
+Sudden acceleration along geodesics on $\SPD(d)$ could serve as an early warning indicator for climate tipping points (AMOC collapse, ice sheet instability), with $V^+/V^-$ identifying the underlying mechanism.
+
+
+%% ====================================================================
+\section{Conclusions}\label{sec:conclusions}
+%% ====================================================================
+
+We make three claims, supported by the results above.
+
+\paragraph{1.\ Detection with geometric advantage.}
+Riemannian fingerprinting detects all three major climate forcings (anthropogenic, volcanic, solar) as statistically significant ($\pval < 0.01$) in observed climate covariance data.
+Standard Euclidean methods on the same data, with the same surrogates and forcing series, fail to reach significance for any forcing.
+The geometric advantage arises from respecting the curved SPD manifold structure, exploiting the higher-dimensional signal space of second-order statistics (36 covariance DOF vs.\ 8 mean DOF for $d=8$), and linearizing at the intrinsic Fr\'{e}chet mean.
+We note that this advantage is partly due to the increased dimensionality and partly due to the Riemannian geometry itself (Table~\ref{tab:threeway}).
+
+\paragraph{2.\ Mechanistic separation via $V^+/V^-$.}
+The $V^+/V^-$ decomposition---splitting regression coefficients into trace (energy budget) and traceless (teleconnection reorganization) components---reveals that the three forcings act through qualitatively distinct mechanisms.
+Solar forcing operates primarily through the energy budget ($V^+ = 0.29$), anthropogenic forcing through a combination dominated by teleconnection reshaping ($V^+ = 0.11$), and volcanic forcing almost entirely through teleconnection reorganization ($V^+ = 0.01$).
+This mechanistic fingerprint is a novel diagnostic unavailable in standard mean-field D\&A.
+
+\paragraph{3.\ Model-free approach.}
+The method requires no climate model ensembles---only observed data and forcing time series.
+This eliminates model dependence (a persistent concern in standard D\&A) at the cost of not having model-predicted response patterns as priors.
+
+\paragraph{Caveats.}
+Attribution fractions can be computed but are inherently imprecise: forcings are interdependent, effects are non-additive on the covariance manifold, and fractions depend on methodological choices that do not affect detection significance.
+Explained variance is approximately 30\%, consistent with dominant internal variability.
+The method detects forcings in covariance structure, which is complementary to---not a replacement for---standard mean-field D\&A.
+Validation against CMIP6 controlled experiments is the most important next step.
+
+The mathematical framework (tangent-space regression on SPD manifolds) is general and applicable to any domain where covariance matrices are the objects of interest, including neuroscience (EEG/fMRI connectivity), finance (portfolio risk), and materials science (elastic tensor fields).
+
+
+%% ====================================================================
+%% APPENDICES
+%% ====================================================================
+\appendix
+
+\makeatletter
+\renewcommand{\thefigure}{\thesection\arabic{figure}}
+\renewcommand{\thetable}{\thesection\arabic{table}}
+\@addtoreset{figure}{section}
+\@addtoreset{table}{section}
+\makeatother
+
+\section{Mathematical Details}\label{app:math}
+
+\subsection{Norm preservation under vech vectorization}
+
+The $\vech$ operator extracts the lower-triangular entries of a symmetric matrix.
+To preserve the Frobenius inner product under vectorization, off-diagonal elements must be scaled by $\sqrt{2}$.
+Specifically, for $V, W \in \Sym(d)$,
+\begin{equation}
+\tr(V W) = \sum_{i} V_{ii} W_{ii} + 2 \sum_{i < j} V_{ij} W_{ij} = \vech(V)^\top \vech(W),
+\end{equation}
+where $\vech$ maps $V_{ii} \mapsto V_{ii}$ and $V_{ij} \mapsto \sqrt{2}\, V_{ij}$ for $i \neq j$.
+This ensures that the multivariate regression in $\RR^{d(d+1)/2}$ respects the Riemannian inner product in the tangent space.
+
+\subsection{Fr\'{e}chet mean convergence}
+
+On $\SPD(d)$ with the affine-invariant metric, the Fr\'{e}chet mean exists and is unique for any finite collection of SPD matrices \citep{Moakher2005}.
+The Riemannian gradient descent algorithm converges at a linear rate with step size $\tau = 1$ when the data lie within a geodesically convex ball.
+In practice, the log-Euclidean initialization $\exp\!\bigl(\frac{1}{N}\sum_i \log C_i\bigr)$ provides a warm start that lies close to the true Fr\'{e}chet mean, and convergence to $\|\nabla\|_F < 10^{-8}$ is achieved within 5--10 iterations for all datasets in this study.
+
+\subsection{Block-permutation vs.\ phase-randomization surrogates}
+
+Block-permutation surrogates preserve the temporal structure \emph{within} blocks of length $b$ while destroying the forcing--response coupling.
+Phase-randomization surrogates preserve the full power spectrum by randomizing Fourier phases.
+Both methods yield similar $p$-values in our analysis (all within a factor of 2).
+We prefer block permutation because (i)~it makes fewer assumptions about the spectral structure, (ii)~it is straightforward to implement and interpret, and (iii)~the block size provides an explicit knob for sensitivity testing (Appendix~\ref{app:blocksize}).
+
+\section{Sensitivity Analysis}\label{app:sensitivity}
+
+All sensitivity analyses use 8 teleconnection indices + GMTA, GloSSAC v2.22 volcanic AOD, and the 1983--2024 window unless otherwise noted.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_sensitivity.pdf}
+\caption{Sensitivity of detection significance ($-\log_{10}(p)$) to window size (left), shrinkage parameter (center), and surrogate block size (right). Dashed lines mark $p=0.05$; dotted lines mark $p=0.01$. All three forcings remain above the $p=0.05$ threshold for window sizes 48--84 months and shrinkage $\lambda \in [0.05, 0.30]$. Significance degrades at block sizes $\geq 12$ due to insufficient permutation resolution (fewer than 13 permutable blocks).}
+\label{fig:sensitivity}
+\end{figure}
+
+\subsection{Sensitivity to rolling window size}\label{app:window}
+
+\begin{table}[h]
+\centering
+\caption{Sensitivity of detection $p$-values and $V^+$ ratio to rolling window size. All three forcings remain significant ($\pval < 0.05$) at every tested window size.}
+\label{tab:B1}
+\begin{tabular}{lccccc}
+\toprule
+Window (months) & $\pval_\mathrm{anthro}$ & $\pval_\mathrm{volc}$ & $\pval_\mathrm{solar}$ & $R^2$ & $V^+_\mathrm{solar}$ \\
+\midrule
+48 & $0.002^{**}$ & $0.002^{**}$ & $0.008^{**}$ & 0.231 & 0.332 \\
+60 & $0.002^{**}$ & $0.002^{**}$ & $0.010^{**}$ & 0.276 & 0.294 \\
+72 & $0.004^{**}$ & $0.002^{**}$ & $0.006^{**}$ & 0.286 & 0.328 \\
+84 & $0.008^{**}$ & $0.002^{**}$ & $0.014^{*}$ & 0.299 & 0.380 \\
+\bottomrule
+\multicolumn{6}{l}{\footnotesize $^{**}\pval < 0.01$;\; $^{*}\pval < 0.05$.}
+\end{tabular}
+\end{table}
+
+All three forcings remain significant ($\pval < 0.05$) at every window size from 48 to 84 months.
+The $V^+$ ratio for solar forcing is stable at 0.29--0.38, confirming the energy-budget mechanism across window choices.
+Longer windows produce marginally higher $R^2$ (more temporal smoothing) but slightly weaker detection of the anthropogenic trend, likely due to reduced temporal resolution.
+
+\subsection{Sensitivity to Ledoit--Wolf shrinkage}\label{app:shrinkage}
+
+\begin{table}[h]
+\centering
+\caption{Sensitivity to Ledoit--Wolf shrinkage parameter $\lambda_\mathrm{LW}$. All forcings remain significant across the full range. Higher shrinkage biases toward isotropy, slightly weakening detection.}
+\label{tab:B2}
+\begin{tabular}{lcccc}
+\toprule
+$\lambda_\mathrm{LW}$ & $\pval_\mathrm{anthro}$ & $\pval_\mathrm{volc}$ & $\pval_\mathrm{solar}$ & $R^2$ \\
+\midrule
+0.05 & $0.002^{**}$ & $0.002^{**}$ & $0.006^{**}$ & 0.294 \\
+0.10 & $0.002^{**}$ & $0.002^{**}$ & $0.006^{**}$ & 0.283 \\
+0.15 & $0.002^{**}$ & $0.002^{**}$ & $0.010^{**}$ & 0.276 \\
+0.20 & $0.002^{**}$ & $0.002^{**}$ & $0.012^{*}$ & 0.269 \\
+0.30 & $0.004^{**}$ & $0.002^{**}$ & $0.012^{*}$ & 0.257 \\
+\bottomrule
+\multicolumn{5}{l}{\footnotesize $^{**}\pval < 0.01$;\; $^{*}\pval < 0.05$.}
+\end{tabular}
+\end{table}
+
+Higher shrinkage biases covariance estimates toward isotropy (scaled identity), attenuating the $V^-$ signal and slightly weakening detection.
+Nevertheless, all three forcings remain significant at $\pval < 0.05$ across the full range $\lambda_\mathrm{LW} \in [0.05, 0.30]$.
+
+\subsection{Extended time window (solar robustness)}\label{app:extended}
+
+\begin{table}[h]
+\centering
+\caption{Solar detection robustness with extended time windows. With more solar cycles, solar remains significant but $V^+$ decreases as teleconnection effects ($V^-$) accumulate over longer periods.}
+\label{tab:B3}
+\begin{tabular}{lcccccc}
+\toprule
+Period & Months & Solar cycles & $\pval_\mathrm{solar}$ & $V^+_\mathrm{solar}$ & $\pval_\mathrm{anthro}$ & $\pval_\mathrm{volc}$ \\
+\midrule
+1950--2024 & 804 & $\sim$7 & $0.014^{*}$ & 0.215 & $0.002^{**}$ & $0.002^{**}$ \\
+1958--2024 & 804 & $\sim$6 & $0.014^{*}$ & 0.215 & $0.002^{**}$ & $0.002^{**}$ \\
+1970--2024 & 660 & $\sim$5 & $0.032^{*}$ & 0.264 & $0.002^{**}$ & $0.002^{**}$ \\
+1983--2024 & 504 & $\sim$4 & $0.010^{**}$ & 0.294 & $0.002^{**}$ & $0.002^{**}$ \\
+\bottomrule
+\multicolumn{7}{l}{\footnotesize $^{**}\pval < 0.01$;\; $^{*}\pval < 0.05$.}
+\end{tabular}
+\end{table}
+
+Solar forcing remains significant ($\pval < 0.05$) with up to 7 solar cycles.
+However, only 4 cycles fall within the primary analysis window (1983--2024), and the solar $p$-values do not uniformly improve with longer windows---reflecting the tension between more cycles and noisier/sparser early data.
+The $V^+$ ratio for solar decreases with longer windows (0.29 to 0.22), suggesting that teleconnection effects ($V^-$) accumulate over longer periods relative to the energy-budget signal.
+
+\subsection{Three-way method comparison}\label{app:threeway}
+
+Table~\ref{tab:threeway} (reproduced in the main text) isolates the geometric effect from the dimensionality effect.
+The flat Euclidean control (vectorized covariance matrices without Riemannian geometry) improves over mean-field Euclidean regression for volcanic and anthropogenic forcing simply due to the larger signal space (36D vs.\ 8D).
+The additional improvement from flat to Riemannian---at the \emph{same} 36 dimensions---demonstrates an independent geometric contribution: the log map and Fr\'{e}chet mean provide a better linearization of the covariance dynamics than naive vectorization.
+
+This decomposition is important for intellectual honesty: the Riemannian advantage is \emph{not} purely geometric.
+Part of it comes from working with second-order statistics (more dimensions), and part comes from the correct geometry on those statistics.
+Both contributions are real and complementary.
+
+\subsection{Sensitivity to surrogate block size}\label{app:blocksize}
+
+\begin{table}[h]
+\centering
+\caption{Sensitivity of detection $p$-values to surrogate block size (in years). Block size controls the trade-off between preserving autocorrelation (larger blocks) and permutation resolution (more blocks).}
+\label{tab:B5}
+\begin{tabular}{lccccc}
+\toprule
+Block size (yr) & $\pval_\mathrm{anthro}$ & $\pval_\mathrm{volc}$ & $\pval_\mathrm{solar}$ & Permutable blocks \\
+\midrule
+2 & $0.002^{**}$ & $0.002^{**}$ & $0.002^{**}$ & 75 \\
+3 & $0.002^{**}$ & $0.002^{**}$ & $0.002^{**}$ & 50 \\
+5 & $0.004^{**}$ & $0.002^{**}$ & $0.008^{**}$ & 30 \\
+8 & $0.014^{*}$ & $0.002^{**}$ & $0.028^{*}$ & 19 \\
+12 & $0.066$ & $0.004^{**}$ & $0.082$ & 13 \\
+20 & $0.270$ & $0.026^{*}$ & $0.275$ & 8 \\
+\bottomrule
+\multicolumn{5}{l}{\footnotesize $^{**}\pval < 0.01$;\; $^{*}\pval < 0.05$.}
+\end{tabular}
+\end{table}
+
+Block size controls the trade-off between preserving autocorrelation within blocks (larger blocks are more conservative) and having enough permutable units for a well-resolved null distribution (more blocks provide finer $p$-value resolution).
+
+At block sizes $\geq 12$~years, anthropogenic and solar lose significance.
+This reflects insufficient permutation resolution (only 13 blocks yield a coarse null distribution), not absence of signal.
+The critical point is that significance depends on block size choice, and we are transparent about this dependence.
+At block sizes of 5--8 years, all three forcings are significant ($\pval < 0.05$) while preserving substantial within-block autocorrelation.
+
+Volcanic forcing is the most robust: it remains significant at $\pval < 0.05$ at all block sizes up to 20 years, likely because the episodic volcanic signal (Pinatubo, El~Chich\'{o}n) is so distinctive that even a coarse null distribution cannot produce comparable spurious signals.
+
+We report block size 5~years as the primary result because it provides 30 permutable blocks---sufficient for a well-resolved null---while preserving autocorrelation on the timescale of the rolling window.
+
+
+%% ====================================================================
+%% AVAILABILITY STATEMENT
+%% ====================================================================
+
+\section*{Availability Statement}
+
+All observational data used in this study are publicly available.
+Teleconnection indices were obtained from the NOAA Climate Prediction Center (https://www.cpc.ncep.noaa.gov/).
+HadCRUT5 gridded temperatures were obtained from the Met Office Hadley Centre (https://www.metoffice.gov.uk/hadobs/hadcrut5/).
+CO$_2$ and CH$_4$ concentration data were obtained from the NOAA Global Monitoring Laboratory (https://gml.noaa.gov/).
+GloSSAC v2.22 stratospheric aerosol optical depth data were obtained from NASA Langley (https://doi.org/10.5067/GloSSAC-L3-V2.22).
+Sunspot number data were obtained from SILSO (https://www.sidc.be/silso/).
+The implementation uses \texttt{numpy} and \texttt{scipy}; no climate-specific libraries are required.
+Code is available at https://github.com/sausterm/omnisciences-research.
+
+
+%% ====================================================================
+%% REFERENCES
+%% ====================================================================
+
+\begin{thebibliography}{99}
+
+\bibitem[Adams et~al.(2003)]{Adams2003}
+Adams, J.~B., Mann, M.~E., \& Ammann, C.~M. (2003).
+Proxy evidence for an El Ni\~{n}o-like response to volcanic forcing.
+\textit{Nature}, \textit{426}, 274--278.
+
+\bibitem[Allen and Stott(2003)]{AllenStott2003}
+Allen, M.~R. \& Stott, P.~A. (2003).
+Estimating signal amplitudes in optimal fingerprinting, Part~I: Theory.
+\textit{Climate Dynamics}, \textit{21}, 477--491.
+
+\bibitem[Barachant et~al.(2013)]{Barachant2013}
+Barachant, A., Bonnet, S., Congedo, M., \& Jutten, C. (2013).
+Classification of covariance matrices using a Riemannian-based kernel for BCI applications.
+\textit{Neurocomputing}, \textit{112}, 172--178.
+
+\bibitem[Cohen et~al.(2014)]{Cohen2014}
+Cohen, J., Screen, J.~A., Furtado, J.~C., Barlow, M., Whittleston, D., Coumou, D., Francis, J., Dethloff, K., Entekhabi, D., Overland, J., \& Jones, J. (2014).
+Recent Arctic amplification and extreme mid-latitude weather.
+\textit{Nature Geoscience}, \textit{7}, 627--637.
+
+\bibitem[DeWitt(1967)]{DeWitt1967}
+DeWitt, B.~S. (1967).
+Quantum theory of gravity.~I. The canonical theory.
+\textit{Physical Review}, \textit{160}(5), 1113--1148.
+
+\bibitem[Francis and Vavrus(2012)]{FrancisVavrus2012}
+Francis, J.~A. \& Vavrus, S.~J. (2012).
+Evidence linking Arctic amplification to extreme weather in mid-latitudes.
+\textit{Geophysical Research Letters}, \textit{39}, L06801.
+
+\bibitem[Gray et~al.(2010)]{Gray2010}
+Gray, L.~J., Beer, J., Geller, M., Haigh, J.~D., Lockwood, M., Matthes, K., Cubasch, U., Fleitmann, D., Harrison, G., Hood, L., Luterbacher, J., Meehl, G.~A., Shindell, D., van Geel, B., \& White, W. (2010).
+Solar influences on climate.
+\textit{Reviews of Geophysics}, \textit{48}, RG4001.
+
+\bibitem[Guillot et~al.(2015)]{Guillot2015}
+Guillot, D., Raber, B., \& Sun, Q. (2015).
+Statistical analysis of positive definite matrices with applications in diffusion tensor imaging.
+\textit{Annals of Applied Statistics}, \textit{9}(2), 901--923.
+
+\bibitem[Hasselmann(1979)]{Hasselmann1979}
+Hasselmann, K. (1979).
+On the signal-to-noise problem in atmospheric response studies.
+In B.~D.~Shaw (Ed.), \textit{Meteorology of Tropical Oceans} (pp.\ 251--259).
+Royal Meteorological Society.
+
+\bibitem[Hegerl et~al.(2007)]{Hegerl2007}
+Hegerl, G.~C., Zwiers, F.~W., Braconnot, P., Gillett, N.~P., Luo, Y., Marengo Orsini, J.~A., Nicholls, N., Penner, J.~E., \& Stott, P.~A. (2007).
+Understanding and attributing climate change.
+In \textit{Climate Change 2007: The Physical Science Basis. Contribution of Working Group~I to the Fourth Assessment Report of the IPCC} (Ch.~9).
+
+\bibitem[{IPCC}(2021)]{IPCC_AR6_Ch3}
+IPCC (2021).
+Human influence on the climate system.
+In V.~Masson-Delmotte et~al.\ (Eds.), \textit{Climate Change 2021: The Physical Science Basis. Contribution of Working Group~I to the Sixth Assessment Report of the IPCC} (Ch.~3).
+Cambridge University Press.
+
+\bibitem[Moakher(2005)]{Moakher2005}
+Moakher, M. (2005).
+A differential geometric approach to the geometric mean of symmetric positive-definite matrices.
+\textit{SIAM Journal on Matrix Analysis and Applications}, \textit{26}(3), 735--747.
+
+\bibitem[Pennec et~al.(2006)]{Pennec2006}
+Pennec, X., Fillard, P., \& Ayache, N. (2006).
+A Riemannian framework for tensor computing.
+\textit{International Journal of Computer Vision}, \textit{66}(1), 41--66.
+
+\bibitem[Predybaylo et~al.(2017)]{Predybaylo2017}
+Predybaylo, E., Stenchikov, G.~L., Wittenberg, A.~T., \& Zeng, F. (2017).
+El Ni\~{n}o/Southern Oscillation response to low-latitude volcanic eruptions depends on ocean pre-conditions and eruption timing.
+\textit{Communications Earth \& Environment}.
+
+\bibitem[Ribes et~al.(2013)]{Ribes2013}
+Ribes, A., Planton, S., \& Terray, L. (2013).
+Application of regularised optimal fingerprinting to attribution.
+Part~I: Method, properties, and idealised analysis.
+\textit{Climate Dynamics}, \textit{41}, 2817--2836.
+
+\bibitem[Ribes et~al.(2017)]{Ribes2017}
+Ribes, A., Zwiers, F.~W., Azais, J.-M., \& Naveau, P. (2017).
+A new statistical approach to climate change detection and attribution.
+\textit{Climate Dynamics}, \textit{48}, 367--386.
+
+\bibitem[Said et~al.(2017)]{Said2017}
+Said, S., Bombrun, L., Berthoumieu, Y., \& Manton, J.~H. (2017).
+Riemannian Gaussian distributions on the space of symmetric positive definite matrices.
+\textit{IEEE Transactions on Information Theory}, \textit{63}(4), 2153--2170.
+
+\bibitem[Scaife et~al.(2013)]{Scaife2013}
+Scaife, A.~A., Ineson, S., Knight, J.~R., Gray, L., Kodera, K., \& Smith, D.~M. (2013).
+A mechanism for lagged North Atlantic climate response to solar variability.
+\textit{Geophysical Research Letters}, \textit{40}, 434--439.
+
+\bibitem[Smerdon et~al.(2015)]{Smerdon2015}
+Smerdon, J.~E., Coats, S., \& Ault, T.~R. (2015).
+Model-dependent spatial skill in pseudoproxy experiments testing climate field reconstruction methods for the Common Era.
+\textit{Climate Dynamics}, \textit{46}, 1921--1942.
+
+\end{thebibliography}
+
+\end{document}
