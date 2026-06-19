@@ -1,0 +1,31 @@
+# Attenuation parameters from Alexander Soudackov (personal communication, 2026-03-26)
+# Definition: alpha = -d/dR [log S(R)] at R0, gamma = -d^2/dR^2 [log S(R)] at R0
+# Units: atomic units (a.u.)
+# R_DA = 2.77 Angstrom
+#
+# Morse potential parameters (also from Soudackov):
+#   D_CH   = 77 kcal/mol       (C-H bond dissociation energy)
+#   D_OH   = 82 kcal/mol       (O-H bond dissociation energy)
+#   beta_CH = 2.068 A^-1       (C-H Morse width parameter)
+#   beta_OH = 2.442 A^-1       (O-H Morse width parameter)
+#   r_CH   = 1.09 A            (C-H equilibrium bond length)
+#   r_OH   = 0.96 A            (O-H equilibrium bond length)
+#
+# mu = reactant vibronic state, nu = product vibronic state
+mu,nu,alpha_H,alpha_D,gamma_H,gamma_D
+0,0,11.034665,15.965260,5.699231,8.055639
+0,1,9.923012,14.872464,6.265313,8.608031
+0,2,8.746970,13.735947,6.849143,9.166544
+0,3,7.485161,12.546187,7.509901,9.756831
+1,0,9.896376,14.841890,6.261668,8.598394
+1,1,8.667494,13.676831,7.174968,9.366207
+1,2,7.337403,12.454163,8.239024,10.187338
+1,3,5.844407,11.154763,9.698933,11.126413
+2,0,8.686988,13.670702,6.893588,9.182247
+2,1,7.291462,12.413936,8.327205,10.228023
+2,2,5.738962,11.081937,10.167525,11.397388
+2,3,3.885230,9.640960,13.162857,12.825504
+3,0,7.386401,12.443408,7.656023,9.832113
+3,1,5.730623,11.065462,10.003734,11.262684
+3,2,3.805784,9.586861,13.437247,12.937917
+3,3,1.216657,7.947903,20.864004,15.145334

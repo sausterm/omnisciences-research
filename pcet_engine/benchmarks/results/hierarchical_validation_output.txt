@@ -1,0 +1,48 @@
+============================================================================================
+HIERARCHICAL HELD-OUT PREDICTION  (per-class intercept + shared slope)
+  delta_0 = a_class + b*d_DA ; strict leave-one-out ; no per-system KIE fitting
+============================================================================================
+System          class               d_DA  d0cal d0hier  KIEexp  KIEhier  KIEpool  KIEzpe |lg|hier
+--------------------------------------------------------------------------------------------
+SLO-1           iron-oxo HAT        2.69  0.500  0.476    81.0     48.4      9.0     7.7     0.22
+AADH            flavoenzyme         3.05  0.465  0.406    55.0     18.6     61.4     8.3     0.47
+MADH            flavoenzyme         3.10  0.432  0.424    30.0     23.3     89.1     8.0     0.11
+PHM             Cu HAT              2.55  0.347  0.352    10.0     10.3      6.7     8.9     0.01
+RNR             tyrosyl/phenoxyl    2.80  0.348  0.328     7.0      5.3     12.2     6.3     0.12
+SLO-1-L546A     iron-oxo HAT        2.88  0.514  0.513    93.0     91.8     21.2     7.7     0.01
+SLO-1-L754A     iron-oxo HAT        2.95  0.524  0.526   112.0    115.5     29.0     7.7     0.01
+SLO-1-DM        iron-oxo HAT        3.10  0.614  0.536   661.0    141.2     48.5     7.7     0.67
+GO              tyrosyl/phenoxyl    2.72  0.422  0.297    22.0      4.6     11.2     7.7     0.68
+LADH            hydride             2.70  0.264  0.274     3.5      3.9     12.5     8.3     0.04
+bc1             tyrosyl/phenoxyl    2.70  0.250  0.327     3.5      8.5     16.7    10.3     0.38
+CAO             flavoenzyme         3.00  0.379  0.413    12.0     19.1     46.2     7.7     0.20
+DHFR            hydride             2.65  0.247  0.269     3.0      3.7     10.4     8.3     0.09
+TSase           hydride             2.85  0.318  0.285     6.0      4.2     22.8     8.0     0.15
+MAO             flavoenzyme         3.00  0.345  0.420     8.0     21.9     51.3     8.0     0.44
+SLO-1-I553G     iron-oxo HAT        3.02  0.518  0.541   100.0    152.5     40.7     7.7     0.18
+SLO-1-I553A     iron-oxo HAT        2.97  0.510  0.532    87.0    127.7     32.2     7.7     0.17
+SLO-1-I553V     iron-oxo HAT        2.85  0.499  0.509    72.0     84.9     18.6     7.7     0.07
+SLO-1-I553L     iron-oxo HAT        2.80  0.493  0.500    65.0     72.5     14.9     7.7     0.05
+SLO-1-I553F     iron-oxo HAT        2.75  0.499  0.489    71.0     60.3     11.9     7.7     0.07
+PhOH-self       tyrosyl/phenoxyl    2.40  0.279  0.252     4.1      3.2      3.9     8.3     0.11
+TauD            iron-oxo HAT        2.65  0.436  0.481    27.0     54.9      8.1     7.7     0.31
+DβH             Cu HAT              2.65  0.370  0.365    10.8     10.1      8.7     7.7     0.03
+MR              flavoenzyme         2.70  0.440  0.331    25.0      6.2      9.2     7.7     0.61
+PETNR           flavoenzyme         2.65  0.315  0.357     5.4      8.7      8.6     7.7     0.21
+GOx             flavoenzyme         2.80  0.354  0.376     8.3     10.8     15.3     7.7     0.12
+RNR-3FY         tyrosyl/phenoxyl    2.80  0.303  0.338     6.0      9.4     24.2     9.6     0.19
+RNR-2FY         tyrosyl/phenoxyl    2.80  0.287  0.342     5.0      9.8     24.6     9.6     0.29
+--------------------------------------------------------------------------------------------
+ALL 28                             mean|log10|: hier=0.215  pool=0.499  ZPE=0.569
+19 non-SLO-1 (cross-chemistry)     mean|log10|: hier=0.240  pool=0.412  ZPE=0.301
+  (hier factor = 1.74x ; pool = 2.58x ; ZPE = 2.00x)
+  paired t (non-SLO): hier vs ZPE  t=-1.20 p=0.247 (two-sided)
+                      hier vs pool t=-2.68 p=0.015 (two-sided)
+  per-class mean|log10| (hier):
+    iron-oxo HAT       n=10  0.176 (within 2x: 8/10)
+    Cu HAT             n= 2  0.021 (within 2x: 2/2)
+    flavoenzyme        n= 7  0.307 (within 2x: 4/7)
+    hydride            n= 3  0.095 (within 2x: 3/3)
+    tyrosyl/phenoxyl   n= 6  0.298 (within 2x: 4/6)
+  ALL 28 within 2x (hier): 21/28 ; pool: 8/28 ; ZPE: 10/28
+============================================================================================

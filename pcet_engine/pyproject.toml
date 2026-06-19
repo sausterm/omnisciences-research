@@ -1,0 +1,79 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pcet-engine"
+version = "0.1.0"
+description = "Proton-Coupled Electron Transfer rate prediction from molecular Hessians"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Sloan Austermann" },
+]
+keywords = [
+    "PCET", "proton-coupled electron transfer", "Marcus theory",
+    "kinetic isotope effect", "vibronic coupling", "tunneling",
+    "electrochemistry", "computational chemistry",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+api = [
+    "fastapi>=0.100.0",
+    "uvicorn[standard]>=0.23.0",
+    "httpx>=0.24.0",
+    "boto3>=1.28.0",
+]
+
+[project.scripts]
+pcet = "pcet_engine.cli:main"
+pcet-api = "pcet_engine.api.app:serve"
+
+[project.urls]
+Repository = "https://github.com/sausterm/OmniSciences"
+
+[tool.setuptools.package-dir]
+pcet_engine = "."
+"pcet_engine.core" = "core"
+"pcet_engine.parsers" = "parsers"
+"pcet_engine.benchmarks" = "benchmarks"
+"pcet_engine.data" = "data"
+"pcet_engine.tests" = "tests"
+"pcet_engine.api" = "api"
+"pcet_engine.api.tests" = "api/tests"
+
+[tool.setuptools]
+packages = [
+    "pcet_engine",
+    "pcet_engine.core",
+    "pcet_engine.parsers",
+    "pcet_engine.benchmarks",
+    "pcet_engine.data",
+    "pcet_engine.tests",
+    "pcet_engine.api",
+    "pcet_engine.api.tests",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
